@@ -31,17 +31,13 @@ class CardTaskWidget extends StatelessWidget {
         child: const Icon(Icons.delete, color: Colors.white),
       ),
       confirmDismiss: (direction) async {
-        return await DialogHelper.showDeleteConfirmationDialog(context, name) ??
-            false;
-      },
-      onDismissed: (direction) async {
-        if (direction == DismissDirection.endToStart) {
-          final confirmed =
-              await DialogHelper.showDeleteConfirmationDialog(context, name);
-          if (confirmed ?? false) {
-            onDelete();
-          }
+        final confirmed =
+            await DialogHelper.showDeleteConfirmationDialog(context, name);
+        if (confirmed ?? false) {
+          onDelete();
+          return true;
         }
+        return null;
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),

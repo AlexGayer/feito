@@ -3,7 +3,6 @@ import 'package:feito/app/global/app_theme.dart';
 import 'package:feito/app/global/app_constants.dart';
 import 'package:feito/app/global/app_routes.dart';
 import 'package:feito/di/di.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -12,7 +11,6 @@ String tela = "";
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await configureDependencies();
-  await Firebase.initializeApp();
 
   tela = await AppFuncoes().isConfigured() ? "/home" : "/login";
   runApp(const MyApp());

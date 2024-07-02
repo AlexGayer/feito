@@ -1,10 +1,10 @@
 import 'dart:math';
+import 'package:feito/app/data/respository/firestore_repository.dart';
 import 'package:feito/app/domain/model/task.dart';
 import 'package:feito/app/widgets/task_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 part 'schedule_controller.g.dart';
 
@@ -12,6 +12,7 @@ part 'schedule_controller.g.dart';
 class ScheduleController = _ScheduleControllerBase with _$ScheduleController;
 
 abstract class _ScheduleControllerBase with Store {
+  final FirestoreRepository _firestoreRepository;
   final customDialog = const TaskDialogWidget();
 
   final tarefaCtrl = TextEditingController();
@@ -27,9 +28,7 @@ abstract class _ScheduleControllerBase with Store {
 
   Random random = Random();
 
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-  _ScheduleControllerBase();
+  _ScheduleControllerBase(this._firestoreRepository);
 
   @observable
   bool _isOpened = false;
@@ -66,7 +65,7 @@ abstract class _ScheduleControllerBase with Store {
       if (formKey.currentState != null) {
         if (formKey.currentState!.validate()) {
           final task = Task(
-            id: '', // O Firestore irá gerar um ID automaticamente
+            id: '',
             name: tarefaCtrl.text,
             description: descrCtrl.text,
             date: toBRDt(selectedDate),
@@ -74,7 +73,7 @@ abstract class _ScheduleControllerBase with Store {
           );
 
           // Adicionar a tarefa ao Firestore
-          await firestore.collection('tasks').add(task.toJson());
+          await _firestoreRepository.addTask(task);
 
           // Atualizar a lista de tarefas localmente
           await fetchTasks();
@@ -94,12 +93,7 @@ abstract class _ScheduleControllerBase with Store {
   @action
   Future<void> fetchTasks() async {
     try {
-      final querySnapshot = await firestore.collection('tasks').get();
-      taskList = querySnapshot.docs.map((doc) {
-        final Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-        data['id'] = doc.id; // Adicionar o ID do documento ao mapa de dados
-        return Task.fromJson(data); // Utilize o método fromJson para converter
-      }).toList();
+      taskList = await _firestoreRepository.fetchTasks();
     } catch (e) {
       print("Erro ao buscar tarefas: $e");
     }
@@ -108,7 +102,7 @@ abstract class _ScheduleControllerBase with Store {
   @action
   Future<void> deleteTask(String taskId) async {
     try {
-      await firestore.collection('tasks').doc(taskId).delete();
+      await _firestoreRepository.deleteTask(taskId);
     } catch (e) {
       print("Erro ao excluir tarefa: $e");
       throw e;
