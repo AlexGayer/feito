@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "715528812703",
+    "project_id": "feito-607d0",
+    "storage_bucket": "feito-607d0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:715528812703:android:7112cf47bd892972ea0aaa",
+        "android_client_info": {
+          "package_name": "com.alexgayer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtMQEn-sb8z9SLzLftxZ3UfTKbNwrl0tQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
