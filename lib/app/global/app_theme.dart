@@ -17,9 +17,9 @@ final darkTheme = ThemeData(
     ),
     textTheme: const TextTheme(
       titleLarge: TextStyle(
-          color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
-      titleMedium: TextStyle(color: Colors.white, fontSize: 14),
-      titleSmall: TextStyle(color: Colors.white, fontSize: 12),
+          color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+      titleMedium: TextStyle(color: Colors.white, fontSize: 16),
+      titleSmall: TextStyle(color: Colors.white, fontSize: 1),
       bodyLarge: TextStyle(color: Colors.white),
       bodyMedium: TextStyle(color: Colors.white),
       bodySmall: TextStyle(color: Colors.white),
@@ -52,9 +52,10 @@ final lightTheme = ThemeData(
       textTheme: ButtonTextTheme.primary,
     ),
     textTheme: const TextTheme(
-      titleLarge: TextStyle(color: Colors.white),
-      titleMedium: TextStyle(color: Colors.white),
-      titleSmall: TextStyle(color: Colors.white),
+      titleLarge: TextStyle(
+          color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+      titleMedium: TextStyle(color: Colors.white, fontSize: 14),
+      titleSmall: TextStyle(color: Colors.white, fontSize: 12),
       bodyLarge: TextStyle(color: Colors.white),
       bodyMedium: TextStyle(color: Colors.white),
       bodySmall: TextStyle(color: Colors.white),

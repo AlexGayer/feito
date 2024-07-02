@@ -1,3 +1,4 @@
+import 'package:feito/app/widgets/elevated_button_widget.dart';
 import 'package:feito/app/widgets/text_button_container.dart';
 import 'package:feito/app/widgets/text_field_container.dart';
 import 'package:flutter/material.dart';
@@ -79,14 +80,14 @@ class TaskDialogWidget extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(
                             top: 20.0, bottom: 20.0, left: 20),
-                        child: Text("Adicionar Tarefa",
-                            style: Theme.of(context).textTheme.titleMedium),
+                        child: Text("Criar nova tarefa",
+                            style: Theme.of(context).textTheme.titleLarge),
                       ),
                       IconButton(
                           onPressed: close,
                           icon: Icon(
                             MdiIcons.close,
-                            size: 20,
+                            size: 30,
                             color: Colors.white,
                           ))
                     ],
@@ -124,13 +125,10 @@ class TaskDialogWidget extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          )),
+                        width: double.infinity,
+                        height: 50,
+                        child: ElevatedButtonWidget(
+                          borderRadius: BorderRadius.circular(20),
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
                               addList();
@@ -139,9 +137,27 @@ class TaskDialogWidget extends StatelessWidget {
                           },
                           child: Text(
                             "Registrar Tarefa",
-                            style: Theme.of(context).textTheme.displayMedium,
-                          )),
-                    ),
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                        )
+
+                        //  ElevatedButton(
+                        //   style: ElevatedButton.styleFrom(
+                        //       shape: RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.circular(20),
+                        //   )),
+                        //   onPressed: () {
+                        //     if (formKey.currentState!.validate()) {
+                        //       addList();
+                        //       close();
+                        //     }
+                        //   },
+                        //   child: Text(
+                        //     "Registrar Tarefa",
+                        //     style: Theme.of(context).textTheme.displayMedium,
+                        //   ),
+                        // ),
+                        ),
                   )
                 ],
               ),

@@ -41,9 +41,9 @@ class _TextFieldContainerState extends State<TextFieldContainer> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       decoration: BoxDecoration(
-        color: Colors.grey.withOpacity(0.1),
+        color: Colors.grey.withOpacity(0.2),
         borderRadius: BorderRadius.circular(20),
       ),
       child: TextFormField(
@@ -74,10 +74,10 @@ class _TextFieldContainerState extends State<TextFieldContainer> {
                     color: Theme.of(context).colorScheme.primary,
                   ))
               : null,
-          hintText: widget.hintText,
+          // hintText: widget.hintText,
           labelText: widget.hintText,
-          labelStyle: Theme.of(context).textTheme.labelSmall,
-          hintStyle: Theme.of(context).textTheme.labelSmall,
+          labelStyle: Theme.of(context).textTheme.bodySmall,
+          hintStyle: Theme.of(context).textTheme.bodySmall,
           icon: Icon(widget.icon, color: Theme.of(context).colorScheme.primary),
           border: InputBorder.none,
         ),

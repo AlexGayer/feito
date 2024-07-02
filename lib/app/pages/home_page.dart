@@ -99,7 +99,8 @@ class _HomePageState extends WidgetStateful<HomePage, ScheduleController> {
                             name: controller.taskList[index].name,
                             descripion: controller.taskList[index].description,
                             date: controller.taskList[index].date,
-                            color: Colors.white,
+                            time: controller.taskList[index].time,
+                            color: controller.colors[index],
                             onDelete: () => controller
                                 .deleteTask(controller.taskList[index].id),
                             id: controller.taskList[index].id,

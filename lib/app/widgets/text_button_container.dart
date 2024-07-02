@@ -44,7 +44,7 @@ class _TextButtonContainerState extends State<TextButtonContainer> {
       margin: const EdgeInsets.symmetric(vertical: 5),
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       decoration: BoxDecoration(
-        color: Colors.grey.withOpacity(0.1),
+        color: Colors.grey.withOpacity(0.2),
         borderRadius: BorderRadius.circular(20),
       ),
       child: InkWell(
@@ -61,10 +61,10 @@ class _TextButtonContainerState extends State<TextButtonContainer> {
             readOnly: true,
             controller: widget.timeCtrl,
             decoration: InputDecoration(
-              hintText: widget.hintText,
+              // hintText: widget.hintText,
               labelText: widget.hintText,
-              labelStyle: Theme.of(context).textTheme.labelSmall,
-              hintStyle: Theme.of(context).textTheme.labelSmall,
+              labelStyle: Theme.of(context).textTheme.bodySmall,
+              // hintStyle: Theme.of(context).textTheme.bodySmall,
               border: InputBorder.none,
               prefixIcon: Icon(widget.icon,
                   color: Theme.of(context).colorScheme.primary),

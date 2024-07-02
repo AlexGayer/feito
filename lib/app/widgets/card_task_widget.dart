@@ -5,6 +5,7 @@ class CardTaskWidget extends StatelessWidget {
   final String name;
   final String descripion;
   final String date;
+  final String time;
   final Color color;
   final String id;
   final Function onDelete;
@@ -14,6 +15,7 @@ class CardTaskWidget extends StatelessWidget {
     required this.name,
     required this.descripion,
     required this.date,
+    required this.time,
     required this.color,
     required this.id,
     required this.onDelete,
@@ -24,11 +26,19 @@ class CardTaskWidget extends StatelessWidget {
     return Dismissible(
       key: Key(id),
       direction: DismissDirection.endToStart,
-      background: Container(
-        color: Colors.red,
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.only(right: 20.0),
-        child: const Icon(Icons.delete, color: Colors.white),
+      background: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Container(
+          width: double.infinity,
+          height: 130,
+          decoration: BoxDecoration(
+            color: Colors.red,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.only(right: 20.0),
+          child: const Icon(Icons.delete, color: Colors.white),
+        ),
       ),
       confirmDismiss: (direction) async {
         final confirmed =
@@ -40,35 +50,38 @@ class CardTaskWidget extends StatelessWidget {
         return null;
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         child: Container(
             width: double.infinity,
-            height: 100,
+            height: 130,
             decoration: BoxDecoration(
               color: color,
               borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.white.withOpacity(0.2),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: const Offset(0, 2)),
-              ],
             ),
             child: Container(
-              margin: const EdgeInsets.only(left: 15, top: 10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(name, style: Theme.of(context).textTheme.displayMedium),
-                  const SizedBox(height: 10),
-                  Text(descripion,
-                      style: Theme.of(context).textTheme.displayMedium),
-                  const SizedBox(height: 10),
-                  Text(date, style: Theme.of(context).textTheme.displaySmall),
-                  const SizedBox(height: 10),
-                ],
+              margin: const EdgeInsets.only(left: 15),
+              decoration: BoxDecoration(
+                color: Colors.grey[900],
+                borderRadius: const BorderRadius.only(
+                    bottomRight: Radius.circular(10),
+                    topRight: Radius.circular(10)),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(name, style: Theme.of(context).textTheme.titleLarge),
+                    const SizedBox(height: 10),
+                    Text(descripion,
+                        style: Theme.of(context).textTheme.titleMedium),
+                    const SizedBox(height: 10),
+                    Text(date, style: Theme.of(context).textTheme.titleSmall),
+                    const SizedBox(height: 10),
+                    Text(time, style: Theme.of(context).textTheme.titleSmall),
+                  ],
+                ),
               ),
             )),
       ),

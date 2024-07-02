@@ -71,6 +71,22 @@ mixin _$ScheduleController on _ScheduleControllerBase, Store {
     });
   }
 
+  late final _$indexAtom =
+      Atom(name: '_ScheduleControllerBase.index', context: context);
+
+  @override
+  int get index {
+    _$indexAtom.reportRead();
+    return super.index;
+  }
+
+  @override
+  set index(int value) {
+    _$indexAtom.reportWrite(value, super.index, () {
+      super.index = value;
+    });
+  }
+
   late final _$taskListAtom =
       Atom(name: '_ScheduleControllerBase.taskList', context: context);
 
@@ -84,6 +100,22 @@ mixin _$ScheduleController on _ScheduleControllerBase, Store {
   set taskList(List<Task> value) {
     _$taskListAtom.reportWrite(value, super.taskList, () {
       super.taskList = value;
+    });
+  }
+
+  late final _$colorsAtom =
+      Atom(name: '_ScheduleControllerBase.colors', context: context);
+
+  @override
+  List<dynamic> get colors {
+    _$colorsAtom.reportRead();
+    return super.colors;
+  }
+
+  @override
+  set colors(List<dynamic> value) {
+    _$colorsAtom.reportWrite(value, super.colors, () {
+      super.colors = value;
     });
   }
 
@@ -175,10 +207,23 @@ mixin _$ScheduleController on _ScheduleControllerBase, Store {
   }
 
   @override
+  void setColor() {
+    final _$actionInfo = _$_ScheduleControllerBaseActionController.startAction(
+        name: '_ScheduleControllerBase.setColor');
+    try {
+      return super.setColor();
+    } finally {
+      _$_ScheduleControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 color: ${color},
+index: ${index},
 taskList: ${taskList},
+colors: ${colors},
 isOpened: ${isOpened},
 loading: ${loading}
     ''';

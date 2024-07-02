@@ -39,6 +39,9 @@ abstract class _ScheduleControllerBase with Store {
   @observable
   Color? color;
 
+  @observable
+  int index = 0;
+
   @computed
   bool get isOpened => _isOpened;
 
@@ -47,6 +50,15 @@ abstract class _ScheduleControllerBase with Store {
 
   @observable
   List<Task> taskList = [];
+
+  @observable
+  List colors = [
+    Colors.cyan[50],
+    Colors.cyan[100],
+    Colors.cyan[200],
+    Colors.cyan[300],
+    Colors.cyan[400],
+  ];
 
   @action
   initState() async {
@@ -105,7 +117,7 @@ abstract class _ScheduleControllerBase with Store {
       await _firestoreRepository.deleteTask(taskId);
     } catch (e) {
       print("Erro ao excluir tarefa: $e");
-      throw e;
+      rethrow;
     }
   }
 
@@ -194,5 +206,10 @@ abstract class _ScheduleControllerBase with Store {
       return "${hour.padLeft(2, "0")}:${minute.padLeft(2, "0")}";
     }
     return "";
+  }
+
+  @action
+  void setColor() {
+    index = random.nextInt(4);
   }
 }
