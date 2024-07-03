@@ -19,7 +19,6 @@ class FirestoreRepositoryImpl implements FirestoreRepository {
     try {
       await firestore.collection('tasks').add(task.toJson());
     } catch (e) {
-      print("Erro ao adicionar tarefa: $e");
       rethrow;
     }
   }
@@ -29,12 +28,11 @@ class FirestoreRepositoryImpl implements FirestoreRepository {
     try {
       final querySnapshot = await firestore.collection('tasks').get();
       return querySnapshot.docs.map((doc) {
-        final data = doc.data() as Map<String, dynamic>;
+        final data = doc.data();
         data['id'] = doc.id; // Adicionar o ID do documento ao mapa de dados
         return Task.fromJson(data);
       }).toList();
     } catch (e) {
-      print("Erro ao buscar tarefas: $e");
       rethrow;
     }
   }
@@ -44,7 +42,6 @@ class FirestoreRepositoryImpl implements FirestoreRepository {
     try {
       await firestore.collection('tasks').doc(taskId).delete();
     } catch (e) {
-      print("Erro ao excluir tarefa: $e");
       rethrow;
     }
   }

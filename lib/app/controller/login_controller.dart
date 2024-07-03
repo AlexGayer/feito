@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously, unused_local_variable, library_private_types_in_public_api
+
 import 'package:feito/app/global/shared_preferences_handler.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -61,16 +63,13 @@ abstract class _LoginControllerBase with Store {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: emailCtrl.text, password: pwdCtrl.text);
       // Sucesso no login
-      print("Usuário logado: ${userCredential.user?.email}");
       await saveCampos();
       Navigator.of(context).pushNamed("/home");
       _loading = false;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('Nenhum usuário encontrado para esse email.');
         _loading = false;
       } else if (e.code == 'wrong-password') {
-        print('Senha incorreta fornecida para esse usuário.');
         _loading = false;
       }
     }
@@ -84,17 +83,14 @@ abstract class _LoginControllerBase with Store {
           await _auth.createUserWithEmailAndPassword(
               email: emailCtrl.text, password: pwdCtrl.text);
       // Sucesso no registro
-      print("Usuário registrado: ${userCredential.user?.email}");
       await saveCampos();
       Navigator.of(context).pushNamed("/home");
 
       _loading = false;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('A senha fornecida é muito fraca.');
         _loading = false;
       } else if (e.code == 'email-already-in-use') {
-        print('Já existe uma conta com esse email.');
         _loading = false;
       }
     }

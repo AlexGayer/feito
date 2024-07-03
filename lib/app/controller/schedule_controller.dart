@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'dart:math';
 import 'package:feito/app/data/respository/firestore_repository.dart';
 import 'package:feito/app/domain/model/task.dart';
@@ -122,7 +124,7 @@ abstract class _ScheduleControllerBase with Store {
           allTasks.where((task) => isSameDay(task.date, selectedDate)).toList();
       taskList.sort((a, b) => a.time.compareTo(b.time));
     } catch (e) {
-      print("Erro ao buscar tarefas: $e");
+      rethrow;
     }
   }
 
@@ -137,7 +139,6 @@ abstract class _ScheduleControllerBase with Store {
     try {
       await _firestoreRepository.deleteTask(taskId);
     } catch (e) {
-      print("Erro ao excluir tarefa: $e");
       rethrow;
     }
   }
@@ -232,7 +233,7 @@ abstract class _ScheduleControllerBase with Store {
   @action
   void setSelectedPriority(String priority) {
     _selectedPriority = priority;
-    print(selectedPriority);
+    // print(selectedPriority);
     switch (priority) {
       case 'high':
         priorityColor = Colors.red;

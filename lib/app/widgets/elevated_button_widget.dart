@@ -9,7 +9,7 @@ class ElevatedButtonWidget extends StatelessWidget {
   final Widget child;
 
   const ElevatedButtonWidget({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.child,
     this.borderRadius,
@@ -17,7 +17,7 @@ class ElevatedButtonWidget extends StatelessWidget {
     this.height = 44.0,
     this.gradient =
         const LinearGradient(colors: [Colors.cyanAccent, Colors.indigo]),
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

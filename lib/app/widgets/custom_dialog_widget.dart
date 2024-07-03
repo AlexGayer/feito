@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:feito/app/controller/schedule_controller.dart';
 import 'package:feito/app/global/widget_stateful.dart';
 import 'package:feito/app/widgets/elevated_button_priority_widget.dart';
