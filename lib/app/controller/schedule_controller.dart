@@ -234,13 +234,13 @@ abstract class _ScheduleControllerBase with Store {
     _selectedPriority = priority;
     print(selectedPriority);
     switch (priority) {
-      case 'Alta':
+      case 'high':
         priorityColor = Colors.red;
         break;
-      case 'Média':
+      case 'medium':
         priorityColor = Colors.orange;
         break;
-      case 'Baixa':
+      case 'low':
         priorityColor = Colors.green;
         break;
       default:

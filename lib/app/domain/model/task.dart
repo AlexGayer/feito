@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Task {
@@ -35,4 +36,17 @@ class Task {
         'time': time,
         'priority': priority,
       };
+
+  Color getPriorityColor() {
+    switch (priority.toLowerCase()) {
+      case 'high':
+        return Colors.red;
+      case 'medium':
+        return Colors.orange;
+      case 'low':
+        return Colors.green;
+      default:
+        return Colors.grey; // Cor padrão ou outra cor padrão que desejar
+    }
+  }
 }

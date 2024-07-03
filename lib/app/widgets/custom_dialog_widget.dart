@@ -116,8 +116,8 @@ class _CustomDialogWidgetState
                                 label: "Alta",
                                 borderRadius: BorderRadius.circular(20),
                                 onPressed: () =>
-                                    controller.setSelectedPriority("Alta"),
-                                color: controller.selectedPriority == "Alta"
+                                    controller.setSelectedPriority("high"),
+                                color: controller.selectedPriority == "high"
                                     ? controller.priorityColor
                                     : null,
                               ),
@@ -126,8 +126,8 @@ class _CustomDialogWidgetState
                                 label: "Média",
                                 borderRadius: BorderRadius.circular(20),
                                 onPressed: () =>
-                                    controller.setSelectedPriority("Média"),
-                                color: controller.selectedPriority == "Média"
+                                    controller.setSelectedPriority("medium"),
+                                color: controller.selectedPriority == "medium"
                                     ? controller.priorityColor
                                     : null,
                               ),
@@ -136,8 +136,8 @@ class _CustomDialogWidgetState
                                 label: "Baixa",
                                 borderRadius: BorderRadius.circular(20),
                                 onPressed: () =>
-                                    controller.setSelectedPriority("Baixa"),
-                                color: controller.selectedPriority == "Baixa"
+                                    controller.setSelectedPriority("low"),
+                                color: controller.selectedPriority == "low"
                                     ? controller.priorityColor
                                     : null,
                               ),
