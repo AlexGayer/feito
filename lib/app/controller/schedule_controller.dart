@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
 
 import 'dart:math';
 import 'package:feito/app/data/respository/firestore_repository.dart';
@@ -135,9 +135,13 @@ abstract class _ScheduleControllerBase with Store {
   }
 
   @action
-  Future<void> deleteTask(String taskId) async {
+  Future<void> deleteTask(BuildContext context, String taskId) async {
     try {
       await _firestoreRepository.deleteTask(taskId);
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        "/home",
+        (route) => true,
+      );
     } catch (e) {
       rethrow;
     }

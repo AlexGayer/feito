@@ -119,6 +119,7 @@ class _HomePageState extends WidgetStateful<HomePage, ScheduleController> {
                                       color: controller.taskList[index]
                                           .getPriorityColor(),
                                       onDelete: () => controller.deleteTask(
+                                          context,
                                           controller.taskList[index].id),
                                       id: controller.taskList[index].id,
                                     ),

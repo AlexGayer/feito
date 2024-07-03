@@ -178,8 +178,8 @@ mixin _$ScheduleController on _ScheduleControllerBase, Store {
       AsyncAction('_ScheduleControllerBase.deleteTask', context: context);
 
   @override
-  Future<void> deleteTask(String taskId) {
-    return _$deleteTaskAsyncAction.run(() => super.deleteTask(taskId));
+  Future<void> deleteTask(BuildContext context, String taskId) {
+    return _$deleteTaskAsyncAction.run(() => super.deleteTask(context, taskId));
   }
 
   late final _$timePickerAsyncAction =
