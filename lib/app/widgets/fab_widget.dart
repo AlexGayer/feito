@@ -27,7 +27,10 @@ class _FABWidgetState extends State<FABWidget>
         child: FloatingActionButton(
           materialTapTargetSize: MaterialTapTargetSize.padded,
           onPressed: widget.onPressed,
-          child: const Icon(Icons.add),
+          child: const Icon(
+            Icons.add,
+            color: Colors.black,
+          ),
         ),
       ),
     );

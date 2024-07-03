@@ -80,34 +80,53 @@ class _HomePageState extends WidgetStateful<HomePage, ScheduleController> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Container(
-                    margin: const EdgeInsets.only(left: 10.0),
-                    child: Text(
-                      "Tarefas",
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.55,
-                      child: Observer(
-                        builder: (_) => ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          itemCount: controller.taskList.length,
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) => CardTaskWidget(
-                            name: controller.taskList[index].name,
-                            descripion: controller.taskList[index].description,
-                            date: controller
-                                .toBRDt(controller.taskList[index].date),
-                            time: controller.taskList[index].time,
-                            color: controller.colors[index],
-                            onDelete: () => controller
-                                .deleteTask(controller.taskList[index].id),
-                            id: controller.taskList[index].id,
+                  Observer(
+                    builder: (_) => controller.taskList.isEmpty
+                        ? SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.55,
+                            child: Center(
+                              child: Text(
+                                "Não existem tarefas listadas para esta data !",
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
+                            ),
+                          )
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(left: 10.0),
+                                child: Text(
+                                  "Tarefas",
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                              SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.55,
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.vertical,
+                                    itemCount: controller.taskList.length,
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) =>
+                                        CardTaskWidget(
+                                      name: controller.taskList[index].name,
+                                      descripion: controller
+                                          .taskList[index].description,
+                                      date: controller.toBRDt(
+                                          controller.taskList[index].date),
+                                      time: controller.taskList[index].time,
+                                      color: controller.colors[index],
+                                      onDelete: () => controller.deleteTask(
+                                          controller.taskList[index].id),
+                                      id: controller.taskList[index].id,
+                                    ),
+                                  )),
+                            ],
                           ),
-                        ),
-                      ))
+                  ),
                 ],
               ),
               floatingActionButton: Observer(
