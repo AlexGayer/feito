@@ -18,7 +18,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends WidgetStateful<HomePage, ScheduleController> {
   final customDialog = const TaskDialogWidget();
-  DateTime selectedDate = DateTime.now();
 
   @override
   void initState() {
@@ -71,10 +70,11 @@ class _HomePageState extends WidgetStateful<HomePage, ScheduleController> {
                     height: MediaQuery.of(context).size.height * 0.1,
                     width: double.infinity,
                     child: WeekSlider(
-                      initialDate: selectedDate,
+                      initialDate: controller.selectedDate,
                       onDateSelected: (date) {
                         setState(() {
-                          selectedDate = date;
+                          controller.selectedDate = date;
+                          controller.fetchTasks();
                         });
                       },
                     ),
@@ -98,7 +98,8 @@ class _HomePageState extends WidgetStateful<HomePage, ScheduleController> {
                           itemBuilder: (context, index) => CardTaskWidget(
                             name: controller.taskList[index].name,
                             descripion: controller.taskList[index].description,
-                            date: controller.taskList[index].date,
+                            date: controller
+                                .toBRDt(controller.taskList[index].date),
                             time: controller.taskList[index].time,
                             color: controller.colors[index],
                             onDelete: () => controller

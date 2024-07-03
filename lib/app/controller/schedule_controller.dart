@@ -4,6 +4,7 @@ import 'package:feito/app/domain/model/task.dart';
 import 'package:feito/app/widgets/task_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 
 part 'schedule_controller.g.dart';
@@ -80,12 +81,13 @@ abstract class _ScheduleControllerBase with Store {
             id: '',
             name: tarefaCtrl.text,
             description: descrCtrl.text,
-            date: toBRDt(selectedDate),
+            date: selectedDate,
             time: toBRDHr(timeOfDay),
           );
 
           // Adicionar a tarefa ao Firestore
           await _firestoreRepository.addTask(task);
+          selectedDate = DateFormat("dd/MM/yyyy").parse(dateCtrl.text);
 
           // Atualizar a lista de tarefas localmente
           await fetchTasks();
@@ -102,13 +104,21 @@ abstract class _ScheduleControllerBase with Store {
     }
   }
 
-  @action
   Future<void> fetchTasks() async {
     try {
-      taskList = await _firestoreRepository.fetchTasks();
+      List<Task> allTasks = await _firestoreRepository.fetchTasks();
+      taskList =
+          allTasks.where((task) => isSameDay(task.date, selectedDate)).toList();
+      taskList.sort((a, b) => a.time.compareTo(b.time));
     } catch (e) {
       print("Erro ao buscar tarefas: $e");
     }
+  }
+
+  bool isSameDay(DateTime date1, DateTime date2) {
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
   }
 
   @action
@@ -160,6 +170,7 @@ abstract class _ScheduleControllerBase with Store {
     }
   }
 
+  @action
   Future _datePicker(BuildContext context) async {
     final DateTime? datePicked = await showDatePicker(
       context: context,

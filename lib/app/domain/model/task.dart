@@ -1,8 +1,10 @@
+import 'package:intl/intl.dart';
+
 class Task {
   String id;
   String name;
   String description;
-  String date;
+  DateTime date;
   String time;
 
   Task({
@@ -17,7 +19,7 @@ class Task {
         id: json['id'] ?? '',
         name: json['name'] ?? '',
         description: json['description'] ?? '',
-        date: json['date'] ?? '',
+        date: DateFormat("dd/MM/yyyy").parse(json['date']),
         time: json['time'] ?? '',
       );
 
@@ -25,7 +27,8 @@ class Task {
         'id': id,
         'name': name,
         'description': description,
-        'date': date,
+        'date':
+            "${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year.toString().padLeft(4, '0')}",
         'time': time,
       };
 }

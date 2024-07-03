@@ -24,7 +24,7 @@ class CardTaskWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key(id),
+      key: UniqueKey(),
       direction: DismissDirection.endToStart,
       background: Padding(
         padding: const EdgeInsets.all(12.0),

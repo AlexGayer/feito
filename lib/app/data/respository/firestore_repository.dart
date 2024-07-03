@@ -20,7 +20,7 @@ class FirestoreRepositoryImpl implements FirestoreRepository {
       await firestore.collection('tasks').add(task.toJson());
     } catch (e) {
       print("Erro ao adicionar tarefa: $e");
-      throw e;
+      rethrow;
     }
   }
 
@@ -35,7 +35,7 @@ class FirestoreRepositoryImpl implements FirestoreRepository {
       }).toList();
     } catch (e) {
       print("Erro ao buscar tarefas: $e");
-      throw e;
+      rethrow;
     }
   }
 
@@ -45,7 +45,7 @@ class FirestoreRepositoryImpl implements FirestoreRepository {
       await firestore.collection('tasks').doc(taskId).delete();
     } catch (e) {
       print("Erro ao excluir tarefa: $e");
-      throw e;
+      rethrow;
     }
   }
 }

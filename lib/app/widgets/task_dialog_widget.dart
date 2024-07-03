@@ -2,6 +2,7 @@ import 'package:feito/app/widgets/elevated_button_widget.dart';
 import 'package:feito/app/widgets/text_button_container.dart';
 import 'package:feito/app/widgets/text_field_container.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class TaskDialogWidget extends StatelessWidget {
@@ -19,6 +20,8 @@ class TaskDialogWidget extends StatelessWidget {
     Function() addList,
     Function() close,
   ) {
+    dateCtrl.text = DateFormat("dd/MM/yyyy").format(DateTime.now());
+
     return showGeneralDialog(
       context: context,
       barrierLabel: "Label",
@@ -139,25 +142,7 @@ class TaskDialogWidget extends StatelessWidget {
                             "Registrar Tarefa",
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
-                        )
-
-                        //  ElevatedButton(
-                        //   style: ElevatedButton.styleFrom(
-                        //       shape: RoundedRectangleBorder(
-                        //     borderRadius: BorderRadius.circular(20),
-                        //   )),
-                        //   onPressed: () {
-                        //     if (formKey.currentState!.validate()) {
-                        //       addList();
-                        //       close();
-                        //     }
-                        //   },
-                        //   child: Text(
-                        //     "Registrar Tarefa",
-                        //     style: Theme.of(context).textTheme.displayMedium,
-                        //   ),
-                        // ),
-                        ),
+                        )),
                   )
                 ],
               ),

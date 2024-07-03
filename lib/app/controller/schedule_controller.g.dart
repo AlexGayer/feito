@@ -135,14 +135,6 @@ mixin _$ScheduleController on _ScheduleControllerBase, Store {
     return _$addTaskAsyncAction.run(() => super.addTask(context));
   }
 
-  late final _$fetchTasksAsyncAction =
-      AsyncAction('_ScheduleControllerBase.fetchTasks', context: context);
-
-  @override
-  Future<void> fetchTasks() {
-    return _$fetchTasksAsyncAction.run(() => super.fetchTasks());
-  }
-
   late final _$deleteTaskAsyncAction =
       AsyncAction('_ScheduleControllerBase.deleteTask', context: context);
 
@@ -157,6 +149,14 @@ mixin _$ScheduleController on _ScheduleControllerBase, Store {
   @override
   Future<dynamic> _timePicker(BuildContext context) {
     return _$_timePickerAsyncAction.run(() => super._timePicker(context));
+  }
+
+  late final _$_datePickerAsyncAction =
+      AsyncAction('_ScheduleControllerBase._datePicker', context: context);
+
+  @override
+  Future<dynamic> _datePicker(BuildContext context) {
+    return _$_datePickerAsyncAction.run(() => super._datePicker(context));
   }
 
   late final _$_ScheduleControllerBaseActionController =
