@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:feito/app/data/respository/firestore_repository.dart';
 import 'package:feito/app/domain/model/task.dart';
-import 'package:feito/app/widgets/task_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
@@ -14,7 +13,6 @@ class ScheduleController = _ScheduleControllerBase with _$ScheduleController;
 
 abstract class _ScheduleControllerBase with Store {
   final FirestoreRepository _firestoreRepository;
-  final customDialog = const TaskDialogWidget();
 
   final tarefaCtrl = TextEditingController();
   final descrCtrl = TextEditingController();
@@ -132,28 +130,7 @@ abstract class _ScheduleControllerBase with Store {
   }
 
   @action
-  getSchedule(BuildContext context) {
-    _isOpened = true;
-    return customDialog.showTaskDialog(
-      context,
-      tarefaCtrl,
-      descrCtrl,
-      timeCtrl,
-      dateCtrl,
-      formKey,
-      () => _datePicker(context),
-      () => _timePicker(context),
-      () => addTask(context),
-      () {
-        Navigator.of(context).pop();
-        clearTextController();
-        _isOpened = false;
-      },
-    );
-  }
-
-  @action
-  Future _timePicker(BuildContext context) async {
+  Future timePicker(BuildContext context) async {
     var time = await showTimePicker(
       context: context,
       initialTime: timeOfDay,
@@ -171,7 +148,7 @@ abstract class _ScheduleControllerBase with Store {
   }
 
   @action
-  Future _datePicker(BuildContext context) async {
+  Future datePicker(BuildContext context) async {
     final DateTime? datePicked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
@@ -217,6 +194,19 @@ abstract class _ScheduleControllerBase with Store {
       return "${hour.padLeft(2, "0")}:${minute.padLeft(2, "0")}";
     }
     return "";
+  }
+
+  @action
+  closeDialog(BuildContext context) async {
+    Navigator.of(context).pop();
+    await clearTextController();
+    await fetchTasks();
+    _isOpened = false;
+  }
+
+  @action
+  void setIsOpened(bool isOpen) {
+    _isOpened = isOpen;
   }
 
   @action

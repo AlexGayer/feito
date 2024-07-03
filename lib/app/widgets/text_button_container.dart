@@ -40,7 +40,7 @@ class _TextButtonContainerState extends State<TextButtonContainer> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
-      width: size.width * 0.45,
+      width: size.width * 0.44,
       margin: const EdgeInsets.symmetric(vertical: 5),
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       decoration: BoxDecoration(
@@ -61,10 +61,8 @@ class _TextButtonContainerState extends State<TextButtonContainer> {
             readOnly: true,
             controller: widget.timeCtrl,
             decoration: InputDecoration(
-              // hintText: widget.hintText,
               labelText: widget.hintText,
               labelStyle: Theme.of(context).textTheme.bodySmall,
-              // hintStyle: Theme.of(context).textTheme.bodySmall,
               border: InputBorder.none,
               prefixIcon: Icon(widget.icon,
                   color: Theme.of(context).colorScheme.primary),

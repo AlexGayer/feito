@@ -1,7 +1,7 @@
 import 'package:feito/app/controller/schedule_controller.dart';
 import 'package:feito/app/global/widget_stateful.dart';
 import 'package:feito/app/widgets/card_task_widget.dart';
-import 'package:feito/app/widgets/task_dialog_widget.dart';
+import 'package:feito/app/widgets/custom_dialog_widget.dart';
 import 'package:feito/app/widgets/week_day_slider_widget.dart';
 import 'package:feito/app/widgets/fab_widget.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +17,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends WidgetStateful<HomePage, ScheduleController> {
-  final customDialog = const TaskDialogWidget();
-
   @override
   void initState() {
     controller.initState();
@@ -130,9 +128,42 @@ class _HomePageState extends WidgetStateful<HomePage, ScheduleController> {
                 ],
               ),
               floatingActionButton: Observer(
-                builder: (_) => FABWidget(
+                builder: (context) => FABWidget(
                   isOpened: controller.isOpened.obs(),
-                  onPressed: () => controller.getSchedule(context),
+                  onPressed: () {
+                    controller.setIsOpened(true);
+                    showGeneralDialog(
+                        context: context,
+                        barrierLabel: "Label",
+                        barrierDismissible: false,
+                        barrierColor: Colors.black.withOpacity(0.6),
+                        transitionDuration: const Duration(milliseconds: 500),
+                        pageBuilder: (context, anim1, anim2) {
+                          return SizedBox.expand(
+                              child: CustomDialogWidget(
+                                  tarefaCtrl: controller.tarefaCtrl,
+                                  descrCtrl: controller.descrCtrl,
+                                  timeCtrl: controller.timeCtrl,
+                                  dateCtrl: controller.dateCtrl,
+                                  formKey: controller.formKey,
+                                  datePicker: () =>
+                                      controller.datePicker(context),
+                                  timePicker: () =>
+                                      controller.timePicker(context),
+                                  addList: () => controller.addTask(context),
+                                  close: () =>
+                                      controller.closeDialog(context)));
+                        },
+                        transitionBuilder: (context, anim1, anim2, child) {
+                          return SlideTransition(
+                            position: Tween(
+                                    begin: const Offset(0, 1),
+                                    end: const Offset(0, 0))
+                                .animate(anim1),
+                            child: child,
+                          );
+                        });
+                  },
                 ),
               ),
               floatingActionButtonLocation:

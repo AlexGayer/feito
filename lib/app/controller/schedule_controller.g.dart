@@ -143,35 +143,32 @@ mixin _$ScheduleController on _ScheduleControllerBase, Store {
     return _$deleteTaskAsyncAction.run(() => super.deleteTask(taskId));
   }
 
-  late final _$_timePickerAsyncAction =
-      AsyncAction('_ScheduleControllerBase._timePicker', context: context);
+  late final _$timePickerAsyncAction =
+      AsyncAction('_ScheduleControllerBase.timePicker', context: context);
 
   @override
-  Future<dynamic> _timePicker(BuildContext context) {
-    return _$_timePickerAsyncAction.run(() => super._timePicker(context));
+  Future<dynamic> timePicker(BuildContext context) {
+    return _$timePickerAsyncAction.run(() => super.timePicker(context));
   }
 
-  late final _$_datePickerAsyncAction =
-      AsyncAction('_ScheduleControllerBase._datePicker', context: context);
+  late final _$datePickerAsyncAction =
+      AsyncAction('_ScheduleControllerBase.datePicker', context: context);
 
   @override
-  Future<dynamic> _datePicker(BuildContext context) {
-    return _$_datePickerAsyncAction.run(() => super._datePicker(context));
+  Future<dynamic> datePicker(BuildContext context) {
+    return _$datePickerAsyncAction.run(() => super.datePicker(context));
+  }
+
+  late final _$closeDialogAsyncAction =
+      AsyncAction('_ScheduleControllerBase.closeDialog', context: context);
+
+  @override
+  Future closeDialog(BuildContext context) {
+    return _$closeDialogAsyncAction.run(() => super.closeDialog(context));
   }
 
   late final _$_ScheduleControllerBaseActionController =
       ActionController(name: '_ScheduleControllerBase', context: context);
-
-  @override
-  dynamic getSchedule(BuildContext context) {
-    final _$actionInfo = _$_ScheduleControllerBaseActionController.startAction(
-        name: '_ScheduleControllerBase.getSchedule');
-    try {
-      return super.getSchedule(context);
-    } finally {
-      _$_ScheduleControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
 
   @override
   dynamic clearTextController() {
@@ -201,6 +198,17 @@ mixin _$ScheduleController on _ScheduleControllerBase, Store {
         name: '_ScheduleControllerBase.toBRDHr');
     try {
       return super.toBRDHr(time);
+    } finally {
+      _$_ScheduleControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setIsOpened(bool isOpen) {
+    final _$actionInfo = _$_ScheduleControllerBaseActionController.startAction(
+        name: '_ScheduleControllerBase.setIsOpened');
+    try {
+      return super.setIsOpened(isOpen);
     } finally {
       _$_ScheduleControllerBaseActionController.endAction(_$actionInfo);
     }
