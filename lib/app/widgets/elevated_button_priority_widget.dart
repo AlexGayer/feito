@@ -5,8 +5,9 @@ class ElevatedButtonPriorityWidget extends StatelessWidget {
   final String label;
   final double? width;
   final double height;
-
   final VoidCallback? onPressed;
+  final Color? color;
+  final Color? textColor;
 
   const ElevatedButtonPriorityWidget({
     super.key,
@@ -15,6 +16,8 @@ class ElevatedButtonPriorityWidget extends StatelessWidget {
     required this.label,
     this.height = 44.0,
     this.onPressed,
+    this.color,
+    this.textColor,
   });
 
   @override
@@ -30,13 +33,13 @@ class ElevatedButtonPriorityWidget extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.transparent,
+          backgroundColor: color ?? Colors.transparent,
           shadowColor: Colors.transparent,
           shape: RoundedRectangleBorder(borderRadius: borderRadius),
         ),
         child: Text(
           label,
-          style: Theme.of(context).textTheme.titleMedium,
+          style: const TextStyle(color: Colors.white, fontSize: 12),
         ),
       ),
     );

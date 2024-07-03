@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:feito/app/data/respository/firestore_repository.dart';
 import 'package:feito/app/domain/model/task.dart';
+import 'package:feito/app/global/shared_preferences_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
@@ -19,6 +20,7 @@ abstract class _ScheduleControllerBase with Store {
   final timeCtrl = TextEditingController();
   final dateCtrl = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  final handler = SharedPreferencesHandler();
 
   TimeOfDay timeOfDay = TimeOfDay.now();
   DateTime selectedDate = DateTime.now();
@@ -41,11 +43,20 @@ abstract class _ScheduleControllerBase with Store {
   @observable
   int index = 0;
 
+  @observable
+  String _selectedPriority = "";
+
+  @observable
+  Color priorityColor = Colors.grey;
+
   @computed
   bool get isOpened => _isOpened;
 
   @computed
   bool get loading => _loading;
+
+  @computed
+  String get selectedPriority => _selectedPriority;
 
   @observable
   List<Task> taskList = [];
@@ -81,6 +92,7 @@ abstract class _ScheduleControllerBase with Store {
             description: descrCtrl.text,
             date: selectedDate,
             time: toBRDHr(timeOfDay),
+            priority: _selectedPriority,
           );
 
           // Adicionar a tarefa ao Firestore
@@ -91,6 +103,7 @@ abstract class _ScheduleControllerBase with Store {
           await fetchTasks();
 
           clearTextController();
+
           _isOpened = false;
           _loading = false;
         }
@@ -198,9 +211,11 @@ abstract class _ScheduleControllerBase with Store {
 
   @action
   closeDialog(BuildContext context) async {
-    Navigator.of(context).pop();
-    await clearTextController();
-    await fetchTasks();
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      "/home",
+      (route) => true,
+    );
+
     _isOpened = false;
   }
 
@@ -212,5 +227,24 @@ abstract class _ScheduleControllerBase with Store {
   @action
   void setColor() {
     index = random.nextInt(4);
+  }
+
+  @action
+  void setSelectedPriority(String priority) {
+    _selectedPriority = priority;
+    print(selectedPriority);
+    switch (priority) {
+      case 'Alta':
+        priorityColor = Colors.red;
+        break;
+      case 'Média':
+        priorityColor = Colors.orange;
+        break;
+      case 'Baixa':
+        priorityColor = Colors.green;
+        break;
+      default:
+        priorityColor = Colors.grey;
+    }
   }
 }

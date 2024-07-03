@@ -22,6 +22,13 @@ mixin _$ScheduleController on _ScheduleControllerBase, Store {
   bool get loading => (_$loadingComputed ??= Computed<bool>(() => super.loading,
           name: '_ScheduleControllerBase.loading'))
       .value;
+  Computed<String>? _$selectedPriorityComputed;
+
+  @override
+  String get selectedPriority => (_$selectedPriorityComputed ??=
+          Computed<String>(() => super.selectedPriority,
+              name: '_ScheduleControllerBase.selectedPriority'))
+      .value;
 
   late final _$_isOpenedAtom =
       Atom(name: '_ScheduleControllerBase._isOpened', context: context);
@@ -84,6 +91,38 @@ mixin _$ScheduleController on _ScheduleControllerBase, Store {
   set index(int value) {
     _$indexAtom.reportWrite(value, super.index, () {
       super.index = value;
+    });
+  }
+
+  late final _$_selectedPriorityAtom =
+      Atom(name: '_ScheduleControllerBase._selectedPriority', context: context);
+
+  @override
+  String get _selectedPriority {
+    _$_selectedPriorityAtom.reportRead();
+    return super._selectedPriority;
+  }
+
+  @override
+  set _selectedPriority(String value) {
+    _$_selectedPriorityAtom.reportWrite(value, super._selectedPriority, () {
+      super._selectedPriority = value;
+    });
+  }
+
+  late final _$priorityColorAtom =
+      Atom(name: '_ScheduleControllerBase.priorityColor', context: context);
+
+  @override
+  Color get priorityColor {
+    _$priorityColorAtom.reportRead();
+    return super.priorityColor;
+  }
+
+  @override
+  set priorityColor(Color value) {
+    _$priorityColorAtom.reportWrite(value, super.priorityColor, () {
+      super.priorityColor = value;
     });
   }
 
@@ -226,14 +265,27 @@ mixin _$ScheduleController on _ScheduleControllerBase, Store {
   }
 
   @override
+  void setSelectedPriority(String priority) {
+    final _$actionInfo = _$_ScheduleControllerBaseActionController.startAction(
+        name: '_ScheduleControllerBase.setSelectedPriority');
+    try {
+      return super.setSelectedPriority(priority);
+    } finally {
+      _$_ScheduleControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 color: ${color},
 index: ${index},
+priorityColor: ${priorityColor},
 taskList: ${taskList},
 colors: ${colors},
 isOpened: ${isOpened},
-loading: ${loading}
+loading: ${loading},
+selectedPriority: ${selectedPriority}
     ''';
   }
 }

@@ -139,20 +139,8 @@ class _HomePageState extends WidgetStateful<HomePage, ScheduleController> {
                         barrierColor: Colors.black.withOpacity(0.6),
                         transitionDuration: const Duration(milliseconds: 500),
                         pageBuilder: (context, anim1, anim2) {
-                          return SizedBox.expand(
-                              child: CustomDialogWidget(
-                                  tarefaCtrl: controller.tarefaCtrl,
-                                  descrCtrl: controller.descrCtrl,
-                                  timeCtrl: controller.timeCtrl,
-                                  dateCtrl: controller.dateCtrl,
-                                  formKey: controller.formKey,
-                                  datePicker: () =>
-                                      controller.datePicker(context),
-                                  timePicker: () =>
-                                      controller.timePicker(context),
-                                  addList: () => controller.addTask(context),
-                                  close: () =>
-                                      controller.closeDialog(context)));
+                          return const SizedBox.expand(
+                              child: CustomDialogWidget());
                         },
                         transitionBuilder: (context, anim1, anim2, child) {
                           return SlideTransition(

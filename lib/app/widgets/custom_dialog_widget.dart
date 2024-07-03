@@ -1,39 +1,27 @@
+import 'package:feito/app/controller/schedule_controller.dart';
+import 'package:feito/app/global/widget_stateful.dart';
 import 'package:feito/app/widgets/elevated_button_priority_widget.dart';
 import 'package:feito/app/widgets/elevated_button_widget.dart';
 import 'package:feito/app/widgets/text_button_container.dart';
 import 'package:feito/app/widgets/text_field_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-// Substitua pelo seu import real
 
 class CustomDialogWidget extends StatefulWidget {
-  final TextEditingController tarefaCtrl;
-  final TextEditingController descrCtrl;
-  final TextEditingController timeCtrl;
-  final TextEditingController dateCtrl;
-  final GlobalKey<FormState> formKey;
-  final Function() datePicker;
-  final Function() timePicker;
-  final Function() addList;
-  final Function() close;
-
-  CustomDialogWidget({
-    required this.tarefaCtrl,
-    required this.descrCtrl,
-    required this.timeCtrl,
-    required this.dateCtrl,
-    required this.formKey,
-    required this.datePicker,
-    required this.timePicker,
-    required this.addList,
-    required this.close,
-  });
+  const CustomDialogWidget({super.key});
 
   @override
   _CustomDialogWidgetState createState() => _CustomDialogWidgetState();
 }
 
-class _CustomDialogWidgetState extends State<CustomDialogWidget> {
+class _CustomDialogWidgetState
+    extends WidgetStateful<CustomDialogWidget, ScheduleController> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -41,11 +29,11 @@ class _CustomDialogWidgetState extends State<CustomDialogWidget> {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
-        height: size.height * 0.45,
+        height: size.height * 0.5,
         margin: const EdgeInsets.only(bottom: 50, left: 10, right: 10),
         child: SingleChildScrollView(
           child: Form(
-            key: widget.formKey,
+            key: controller.formKey,
             child: Material(
               color: Colors.black,
               borderRadius: BorderRadius.circular(20),
@@ -62,7 +50,7 @@ class _CustomDialogWidgetState extends State<CustomDialogWidget> {
                             style: Theme.of(context).textTheme.titleLarge),
                       ),
                       IconButton(
-                          onPressed: widget.close,
+                          onPressed: () => controller.closeDialog(context),
                           icon: Icon(
                             MdiIcons.close,
                             size: 30,
@@ -73,7 +61,7 @@ class _CustomDialogWidgetState extends State<CustomDialogWidget> {
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0, right: 10),
                     child: TextFieldContainer(
-                      controller: widget.tarefaCtrl,
+                      controller: controller.tarefaCtrl,
                       hintText: "Nome da Tarefa",
                       validatorText: "Informe o nome da tarefa !",
                     ),
@@ -81,7 +69,7 @@ class _CustomDialogWidgetState extends State<CustomDialogWidget> {
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0, right: 10),
                     child: TextFieldContainer(
-                      controller: widget.descrCtrl,
+                      controller: controller.descrCtrl,
                       hintText: "Descrição",
                       validatorText: "Informe a descrição da tarefa !",
                     ),
@@ -93,16 +81,16 @@ class _CustomDialogWidgetState extends State<CustomDialogWidget> {
                       children: [
                         TextButtonContainer(
                           hintText: "Data",
-                          timeCtrl: widget.dateCtrl,
-                          onPressed: widget.datePicker,
+                          timeCtrl: controller.dateCtrl,
+                          onPressed: () => controller.datePicker(context),
                           validatorText: "Informe uma data !",
                           icon: MdiIcons.calendar,
                         ),
                         TextButtonContainer(
                           hintText: "Horário",
                           validatorText: "Informe um horário !",
-                          timeCtrl: widget.timeCtrl,
-                          onPressed: widget.timePicker,
+                          timeCtrl: controller.timeCtrl,
+                          onPressed: () => controller.timePicker(context),
                           icon: MdiIcons.clock,
                         ),
                       ],
@@ -110,21 +98,52 @@ class _CustomDialogWidgetState extends State<CustomDialogWidget> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ElevatedButtonPriorityWidget(
-                          label: "Alta",
-                          borderRadius: BorderRadius.circular(20),
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(left: 10.0, bottom: 10),
+                          child: Text("Selecione a prioridade",
+                              style: Theme.of(context).textTheme.bodyMedium),
                         ),
-                        ElevatedButtonPriorityWidget(
-                          label: "Média",
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        ElevatedButtonPriorityWidget(
-                          label: "Baixa",
-                          borderRadius: BorderRadius.circular(20),
-                        ),
+                        Observer(
+                          builder: (_) => Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ElevatedButtonPriorityWidget(
+                                width: size.width * 0.25,
+                                label: "Alta",
+                                borderRadius: BorderRadius.circular(20),
+                                onPressed: () =>
+                                    controller.setSelectedPriority("Alta"),
+                                color: controller.selectedPriority == "Alta"
+                                    ? controller.priorityColor
+                                    : null,
+                              ),
+                              ElevatedButtonPriorityWidget(
+                                width: size.width * 0.25,
+                                label: "Média",
+                                borderRadius: BorderRadius.circular(20),
+                                onPressed: () =>
+                                    controller.setSelectedPriority("Média"),
+                                color: controller.selectedPriority == "Média"
+                                    ? controller.priorityColor
+                                    : null,
+                              ),
+                              ElevatedButtonPriorityWidget(
+                                width: size.width * 0.25,
+                                label: "Baixa",
+                                borderRadius: BorderRadius.circular(20),
+                                onPressed: () =>
+                                    controller.setSelectedPriority("Baixa"),
+                                color: controller.selectedPriority == "Baixa"
+                                    ? controller.priorityColor
+                                    : null,
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -136,9 +155,14 @@ class _CustomDialogWidgetState extends State<CustomDialogWidget> {
                       child: ElevatedButtonWidget(
                         borderRadius: BorderRadius.circular(20),
                         onPressed: () {
-                          if (widget.formKey.currentState!.validate()) {
-                            widget.addList();
-                            widget.close();
+                          if (controller.formKey.currentState!.validate()) {
+                            controller.addTask(context);
+
+                            !controller.isOpened;
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                              "/home",
+                              (route) => false,
+                            );
                           }
                         },
                         child: Text(

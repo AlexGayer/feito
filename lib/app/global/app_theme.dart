@@ -19,7 +19,7 @@ final darkTheme = ThemeData(
       titleLarge: TextStyle(
           color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
       titleMedium: TextStyle(color: Colors.white, fontSize: 16),
-      titleSmall: TextStyle(color: Colors.white, fontSize: 1),
+      titleSmall: TextStyle(color: Colors.white, fontSize: 12),
       bodyLarge: TextStyle(color: Colors.white),
       bodyMedium: TextStyle(color: Colors.white),
       bodySmall: TextStyle(color: Colors.white),
