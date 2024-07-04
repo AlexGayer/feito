@@ -2,7 +2,6 @@ import 'package:feito/app/controller/schedule_controller.dart';
 import 'package:feito/app/domain/model/task.dart';
 import 'package:feito/app/global/dialog_helper.dart';
 import 'package:feito/app/global/widget_stateful.dart';
-
 import 'package:feito/app/widgets/edit_custom_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -148,8 +147,18 @@ class _CardTaskWidgetState
                             style:
                                 TextStyle(color: widget.color, fontSize: 18)),
                         IconButton(
-                          onPressed: () => controller.toggleComplete(
-                              context, widget.id, widget.completed),
+                          onPressed: () {
+                            controller.toggleComplete(
+                                context, widget.id, widget.completed);
+                            Navigator.of(context)
+                                .pushNamedAndRemoveUntil(
+                                    "/home", (route) => true)
+                                .then(
+                                  (_) => setState(() async {
+                                    await controller.fetchTasks();
+                                  }),
+                                );
+                          },
                           icon: Icon(
                             MdiIcons.checkCircle,
                             color: widget.completed

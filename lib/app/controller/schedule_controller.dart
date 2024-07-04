@@ -181,7 +181,6 @@ abstract class _ScheduleControllerBase with Store {
     try {
       await _firestoreRepository
           .updateTask(taskId, {'isCompleted': isCompleted});
-      await fetchTasks();
     } catch (e) {
       rethrow;
     }
