@@ -24,6 +24,11 @@ class _EditCustomDialogWidgetState
   @override
   void initState() {
     super.initState();
+    controller.tarefaCtrl.text = widget.task.name;
+    controller.descrCtrl.text = widget.task.description;
+    controller.dateCtrl.text = controller.toBRDt(widget.task.date);
+    controller.timeCtrl.text = widget.task.time;
+    controller.setSelectedPriority(widget.task.priority);
   }
 
   @override
@@ -66,7 +71,7 @@ class _EditCustomDialogWidgetState
                     padding: const EdgeInsets.only(left: 10.0, right: 10),
                     child: TextFieldContainer(
                       controller: controller.tarefaCtrl,
-                      hintText: widget.task.name,
+                      hintText: "Nome da Tarefa",
                       validatorText: "Informe o nome da tarefa !",
                     ),
                   ),
@@ -74,7 +79,7 @@ class _EditCustomDialogWidgetState
                     padding: const EdgeInsets.only(left: 10.0, right: 10),
                     child: TextFieldContainer(
                       controller: controller.descrCtrl,
-                      hintText: widget.task.description,
+                      hintText: "Descrição",
                       validatorText: "Informe a descrição da tarefa !",
                     ),
                   ),
@@ -84,14 +89,14 @@ class _EditCustomDialogWidgetState
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         TextButtonContainer(
-                          hintText: controller.toBRDt(widget.task.date),
+                          hintText: "Data",
                           timeCtrl: controller.dateCtrl,
                           onPressed: () => controller.datePicker(context),
                           validatorText: "Informe uma data !",
                           icon: MdiIcons.calendar,
                         ),
                         TextButtonContainer(
-                          hintText: widget.task.time,
+                          hintText: "Horário",
                           validatorText: "Informe um horário !",
                           timeCtrl: controller.timeCtrl,
                           onPressed: () => controller.timePicker(context),
@@ -162,12 +167,14 @@ class _EditCustomDialogWidgetState
                           if (controller.formKey.currentState!.validate()) {
                             controller.updateTask(context, widget.task.id);
 
-                            // !controller.isOpened;
-                            // Navigator.of(context).pushNamedAndRemoveUntil(
-                            //   "/home",
-                            //   (route) => false,
-                            // );
-                            Navigator.of(context).pop();
+                            Navigator.of(context)
+                                .pushNamedAndRemoveUntil(
+                                    "/home", (route) => true)
+                                .then(
+                                  (_) => setState(() async {
+                                    await controller.fetchTasks();
+                                  }),
+                                );
                           }
                         },
                         child: Text(

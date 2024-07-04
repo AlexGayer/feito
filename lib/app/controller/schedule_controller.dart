@@ -136,11 +136,6 @@ abstract class _ScheduleControllerBase with Store {
     try {
       await _firestoreRepository.deleteTask(taskId);
       await fetchTasks();
-
-      // Navigator.of(context).pushNamedAndRemoveUntil(
-      //   "/home",
-      //   (route) => true,
-      // );
     } catch (e) {
       rethrow;
     }
@@ -153,9 +148,11 @@ abstract class _ScheduleControllerBase with Store {
       if (formKey.currentState != null) {
         if (formKey.currentState!.validate()) {
           final data = {
+            'id': taskId,
             'name': tarefaCtrl.text,
             'description': descrCtrl.text,
-            'date': selectedDate,
+            'date':
+                "${selectedDate.day.toString().padLeft(2, '0')}/${selectedDate.month.toString().padLeft(2, '0')}/${selectedDate.year.toString().padLeft(4, '0')}",
             'time': toBRDHr(timeOfDay),
             'priority': _selectedPriority,
             'isCompleted': false,
