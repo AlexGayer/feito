@@ -6,6 +6,7 @@ abstract class FirestoreRepository {
   Future<void> addTask(Task task);
   Future<List<Task>> fetchTasks();
   Future<void> deleteTask(String taskId);
+  Future<void> updateTask(String taskId, Map<String, dynamic> data);
 }
 
 @Injectable(as: FirestoreRepository)
@@ -41,6 +42,15 @@ class FirestoreRepositoryImpl implements FirestoreRepository {
   Future<void> deleteTask(String taskId) async {
     try {
       await firestore.collection('tasks').doc(taskId).delete();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> updateTask(String taskId, Map<String, dynamic> data) async {
+    try {
+      await firestore.collection('tasks').doc(taskId).update(data);
     } catch (e) {
       rethrow;
     }

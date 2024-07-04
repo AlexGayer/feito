@@ -8,6 +8,7 @@ class Task {
   DateTime date;
   String time;
   String priority;
+  bool completed;
 
   Task({
     required this.id,
@@ -16,6 +17,7 @@ class Task {
     required this.date,
     required this.time,
     required this.priority,
+    required this.completed,
   });
 
   factory Task.fromJson(Map<String, dynamic> json) => Task(
@@ -25,6 +27,7 @@ class Task {
         date: DateFormat("dd/MM/yyyy").parse(json['date']),
         time: json['time'] ?? '',
         priority: json['priority'] ?? '',
+        completed: json['completed'] ?? false,
       );
 
   Map<String, dynamic> toJson() => {
@@ -35,6 +38,7 @@ class Task {
             "${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year.toString().padLeft(4, '0')}",
         'time': time,
         'priority': priority,
+        'completed': completed,
       };
 
   Color getPriorityColor() {

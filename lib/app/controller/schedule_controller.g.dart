@@ -22,6 +22,13 @@ mixin _$ScheduleController on _ScheduleControllerBase, Store {
   bool get loading => (_$loadingComputed ??= Computed<bool>(() => super.loading,
           name: '_ScheduleControllerBase.loading'))
       .value;
+  Computed<bool>? _$isCompletedComputed;
+
+  @override
+  bool get isCompleted =>
+      (_$isCompletedComputed ??= Computed<bool>(() => super.isCompleted,
+              name: '_ScheduleControllerBase.isCompleted'))
+          .value;
   Computed<String>? _$selectedPriorityComputed;
 
   @override
@@ -59,6 +66,22 @@ mixin _$ScheduleController on _ScheduleControllerBase, Store {
   set _loading(bool value) {
     _$_loadingAtom.reportWrite(value, super._loading, () {
       super._loading = value;
+    });
+  }
+
+  late final _$_isCompletedAtom =
+      Atom(name: '_ScheduleControllerBase._isCompleted', context: context);
+
+  @override
+  bool get _isCompleted {
+    _$_isCompletedAtom.reportRead();
+    return super._isCompleted;
+  }
+
+  @override
+  set _isCompleted(bool value) {
+    _$_isCompletedAtom.reportWrite(value, super._isCompleted, () {
+      super._isCompleted = value;
     });
   }
 
@@ -182,6 +205,24 @@ mixin _$ScheduleController on _ScheduleControllerBase, Store {
     return _$deleteTaskAsyncAction.run(() => super.deleteTask(context, taskId));
   }
 
+  late final _$updateTaskAsyncAction =
+      AsyncAction('_ScheduleControllerBase.updateTask', context: context);
+
+  @override
+  Future<void> updateTask(BuildContext context, String taskId) {
+    return _$updateTaskAsyncAction.run(() => super.updateTask(context, taskId));
+  }
+
+  late final _$markTaskAsCompletedAsyncAction = AsyncAction(
+      '_ScheduleControllerBase.markTaskAsCompleted',
+      context: context);
+
+  @override
+  Future<void> markTaskAsCompleted(String taskId, bool isCompleted) {
+    return _$markTaskAsCompletedAsyncAction
+        .run(() => super.markTaskAsCompleted(taskId, isCompleted));
+  }
+
   late final _$timePickerAsyncAction =
       AsyncAction('_ScheduleControllerBase.timePicker', context: context);
 
@@ -204,6 +245,15 @@ mixin _$ScheduleController on _ScheduleControllerBase, Store {
   @override
   Future closeDialog(BuildContext context) {
     return _$closeDialogAsyncAction.run(() => super.closeDialog(context));
+  }
+
+  late final _$toggleCompleteAsyncAction =
+      AsyncAction('_ScheduleControllerBase.toggleComplete', context: context);
+
+  @override
+  Future toggleComplete(BuildContext context, String taskId) {
+    return _$toggleCompleteAsyncAction
+        .run(() => super.toggleComplete(context, taskId));
   }
 
   late final _$_ScheduleControllerBaseActionController =
@@ -285,6 +335,7 @@ taskList: ${taskList},
 colors: ${colors},
 isOpened: ${isOpened},
 loading: ${loading},
+isCompleted: ${isCompleted},
 selectedPriority: ${selectedPriority}
     ''';
   }

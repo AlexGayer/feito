@@ -40,6 +40,9 @@ abstract class _ScheduleControllerBase with Store {
   bool _loading = false;
 
   @observable
+  bool _isCompleted = false;
+
+  @observable
   Color? color;
 
   @observable
@@ -56,6 +59,9 @@ abstract class _ScheduleControllerBase with Store {
 
   @computed
   bool get loading => _loading;
+
+  @computed
+  bool get isCompleted => _isCompleted;
 
   @computed
   String get selectedPriority => _selectedPriority;
@@ -95,6 +101,7 @@ abstract class _ScheduleControllerBase with Store {
             date: selectedDate,
             time: toBRDHr(timeOfDay),
             priority: _selectedPriority,
+            completed: false,
           );
 
           // Adicionar a tarefa ao Firestore
@@ -128,12 +135,6 @@ abstract class _ScheduleControllerBase with Store {
     }
   }
 
-  bool isSameDay(DateTime date1, DateTime date2) {
-    return date1.year == date2.year &&
-        date1.month == date2.month &&
-        date1.day == date2.day;
-  }
-
   @action
   Future<void> deleteTask(BuildContext context, String taskId) async {
     try {
@@ -145,6 +146,55 @@ abstract class _ScheduleControllerBase with Store {
     } catch (e) {
       rethrow;
     }
+  }
+
+  @action
+  Future<void> updateTask(BuildContext context, String taskId) async {
+    _loading = true;
+    try {
+      if (formKey.currentState != null) {
+        if (formKey.currentState!.validate()) {
+          final data = {
+            'name': tarefaCtrl.text,
+            'description': descrCtrl.text,
+            'date': selectedDate,
+            'time': toBRDHr(timeOfDay),
+            'priority': _selectedPriority,
+            'isCompleted': false, // Inicialmente, a tarefa não está concluída
+          };
+
+          await _firestoreRepository.updateTask(taskId, data);
+
+          await fetchTasks();
+
+          clearTextController();
+
+          _isOpened = false;
+          _loading = false;
+        }
+      }
+    } catch (e) {
+      clearTextController();
+      _isOpened = false;
+      _loading = false;
+    }
+  }
+
+  @action
+  Future<void> markTaskAsCompleted(String taskId, bool isCompleted) async {
+    try {
+      await _firestoreRepository
+          .updateTask(taskId, {'isCompleted': isCompleted});
+      await fetchTasks();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  bool isSameDay(DateTime date1, DateTime date2) {
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
   }
 
   @action
@@ -232,6 +282,12 @@ abstract class _ScheduleControllerBase with Store {
   @action
   void setColor() {
     index = random.nextInt(4);
+  }
+
+  @action
+  toggleComplete(BuildContext context, String taskId) async {
+    _isCompleted = !_isCompleted;
+    await markTaskAsCompleted(taskId, isCompleted);
   }
 
   @action

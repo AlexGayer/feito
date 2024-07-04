@@ -121,6 +121,9 @@ class _HomePageState extends WidgetStateful<HomePage, ScheduleController> {
                                       onDelete: () => controller.deleteTask(
                                           context,
                                           controller.taskList[index].id),
+                                      onComplete: () =>
+                                          controller.taskList[index].id,
+                                      onEdit: () {},
                                       id: controller.taskList[index].id,
                                     ),
                                   )),
