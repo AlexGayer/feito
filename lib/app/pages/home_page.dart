@@ -82,12 +82,6 @@ class _HomePageState extends WidgetStateful<HomePage, ScheduleController> {
                     builder: (_) => controller.taskList.isEmpty
                         ? SizedBox(
                             height: MediaQuery.of(context).size.height * 0.55,
-                            child: Center(
-                              child: Text(
-                                "Não existem tarefas listadas para esta data !",
-                                style: Theme.of(context).textTheme.titleLarge,
-                              ),
-                            ),
                           )
                         : Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -102,31 +96,34 @@ class _HomePageState extends WidgetStateful<HomePage, ScheduleController> {
                               ),
                               const SizedBox(height: 20),
                               SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.55,
-                                  child: ListView.builder(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.55,
+                                child: Observer(
+                                  builder: (_) => ListView.builder(
                                     scrollDirection: Axis.vertical,
                                     itemCount: controller.taskList.length,
                                     shrinkWrap: true,
-                                    itemBuilder: (context, index) =>
-                                        CardTaskWidget(
-                                      name: controller.taskList[index].name,
-                                      descripion: controller
-                                          .taskList[index].description,
-                                      date: controller.toBRDt(
-                                          controller.taskList[index].date),
-                                      time: controller.taskList[index].time,
-                                      color: controller.taskList[index]
-                                          .getPriorityColor(),
-                                      onDelete: () => controller.deleteTask(
-                                          context,
-                                          controller.taskList[index].id),
-                                      onComplete: () =>
-                                          controller.taskList[index].id,
-                                      onEdit: () {},
-                                      id: controller.taskList[index].id,
-                                    ),
-                                  )),
+                                    itemBuilder: (context, index) {
+                                      var task = controller.taskList[index];
+                                      return CardTaskWidget(
+                                        name: task.name,
+                                        descripion: task.description,
+                                        date: controller.toBRDt(task.date),
+                                        time: task.time,
+                                        color: task.getPriorityColor(),
+                                        completedColor:
+                                            task.getCompletedColor(),
+                                        onDelete: () => controller.deleteTask(
+                                            context, task.id),
+                                        onComplete: () => task.id,
+                                        onEdit: () {},
+                                        id: task.id,
+                                        completed: task.isCompleted,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                   ),

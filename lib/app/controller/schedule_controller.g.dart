@@ -22,13 +22,6 @@ mixin _$ScheduleController on _ScheduleControllerBase, Store {
   bool get loading => (_$loadingComputed ??= Computed<bool>(() => super.loading,
           name: '_ScheduleControllerBase.loading'))
       .value;
-  Computed<bool>? _$isCompletedComputed;
-
-  @override
-  bool get isCompleted =>
-      (_$isCompletedComputed ??= Computed<bool>(() => super.isCompleted,
-              name: '_ScheduleControllerBase.isCompleted'))
-          .value;
   Computed<String>? _$selectedPriorityComputed;
 
   @override
@@ -66,22 +59,6 @@ mixin _$ScheduleController on _ScheduleControllerBase, Store {
   set _loading(bool value) {
     _$_loadingAtom.reportWrite(value, super._loading, () {
       super._loading = value;
-    });
-  }
-
-  late final _$_isCompletedAtom =
-      Atom(name: '_ScheduleControllerBase._isCompleted', context: context);
-
-  @override
-  bool get _isCompleted {
-    _$_isCompletedAtom.reportRead();
-    return super._isCompleted;
-  }
-
-  @override
-  set _isCompleted(bool value) {
-    _$_isCompletedAtom.reportWrite(value, super._isCompleted, () {
-      super._isCompleted = value;
     });
   }
 
@@ -218,9 +195,10 @@ mixin _$ScheduleController on _ScheduleControllerBase, Store {
       context: context);
 
   @override
-  Future<void> markTaskAsCompleted(String taskId, bool isCompleted) {
+  Future<void> markTaskAsCompleted(
+      BuildContext context, String taskId, bool isCompleted) {
     return _$markTaskAsCompletedAsyncAction
-        .run(() => super.markTaskAsCompleted(taskId, isCompleted));
+        .run(() => super.markTaskAsCompleted(context, taskId, isCompleted));
   }
 
   late final _$timePickerAsyncAction =
@@ -251,9 +229,9 @@ mixin _$ScheduleController on _ScheduleControllerBase, Store {
       AsyncAction('_ScheduleControllerBase.toggleComplete', context: context);
 
   @override
-  Future toggleComplete(BuildContext context, String taskId) {
+  Future toggleComplete(BuildContext context, String taskId, bool isCompleted) {
     return _$toggleCompleteAsyncAction
-        .run(() => super.toggleComplete(context, taskId));
+        .run(() => super.toggleComplete(context, taskId, isCompleted));
   }
 
   late final _$_ScheduleControllerBaseActionController =
@@ -335,7 +313,6 @@ taskList: ${taskList},
 colors: ${colors},
 isOpened: ${isOpened},
 loading: ${loading},
-isCompleted: ${isCompleted},
 selectedPriority: ${selectedPriority}
     ''';
   }

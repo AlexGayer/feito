@@ -2,7 +2,6 @@ import 'package:feito/app/controller/schedule_controller.dart';
 import 'package:feito/app/global/dialog_helper.dart';
 import 'package:feito/app/global/widget_stateful.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class CardTaskWidget extends StatefulWidget {
@@ -11,10 +10,12 @@ class CardTaskWidget extends StatefulWidget {
   final String date;
   final String time;
   final Color color;
+  final Color completedColor;
   final String id;
   final Function onDelete;
   final Function onEdit;
   final Function onComplete;
+  final bool completed;
 
   const CardTaskWidget({
     super.key,
@@ -23,10 +24,12 @@ class CardTaskWidget extends StatefulWidget {
     required this.date,
     required this.time,
     required this.color,
+    required this.completedColor,
     required this.id,
     required this.onDelete,
     required this.onEdit,
     required this.onComplete,
+    required this.completed,
   });
 
   @override
@@ -78,6 +81,7 @@ class _CardTaskWidgetState
               TextEditingController descriptionController =
                   TextEditingController(text: widget.descripion);
               return EditDialogWidget(
+                  controller: controller,
                   nameController: nameController,
                   descriptionController: descriptionController,
                   onEdit: widget.onEdit,
@@ -125,16 +129,14 @@ class _CardTaskWidgetState
                         Text(widget.name,
                             style:
                                 TextStyle(color: widget.color, fontSize: 18)),
-                        Observer(
-                          builder: (_) => IconButton(
-                            onPressed: () =>
-                                controller.toggleComplete(context, widget.id),
-                            icon: Icon(
-                              MdiIcons.check,
-                              color: controller.isCompleted
-                                  ? Colors.green
-                                  : Colors.white,
-                            ),
+                        IconButton(
+                          onPressed: () => controller.toggleComplete(
+                              context, widget.id, widget.completed),
+                          icon: Icon(
+                            MdiIcons.checkCircle,
+                            color: widget.completed
+                                ? widget.completedColor
+                                : Colors.white,
                           ),
                         ),
                       ],
@@ -157,51 +159,32 @@ class _CardTaskWidgetState
 }
 
 class EditDialogWidget extends StatelessWidget {
+  final ScheduleController controller;
+  final TextEditingController nameController;
+  final TextEditingController descriptionController;
+  final Function onEdit;
+  final String id;
+
   const EditDialogWidget({
     super.key,
+    required this.controller,
     required this.nameController,
     required this.descriptionController,
     required this.onEdit,
     required this.id,
   });
 
-  final TextEditingController nameController;
-  final TextEditingController descriptionController;
-  final Function onEdit;
-  final String id;
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Editar Tarefa'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextField(
-            controller: nameController,
-            decoration: const InputDecoration(labelText: 'Nome'),
-          ),
-          TextField(
-            controller: descriptionController,
-            decoration: const InputDecoration(labelText: 'Descrição'),
-          ),
-        ],
-      ),
-      actions: <Widget>[
-        TextButton(
-          child: const Text('Cancelar'),
-          onPressed: () {
-            Navigator.of(context).pop(false);
-          },
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
         ),
-        TextButton(
-          child: const Text('Salvar'),
-          onPressed: () {
-            onEdit(id, nameController.text, descriptionController.text);
-            Navigator.of(context).pop(true);
-          },
-        ),
-      ],
-    );
+        content: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.5,
+          width: MediaQuery.of(context).size.width,
+          child: SingleChildScrollView(),
+        ));
   }
 }

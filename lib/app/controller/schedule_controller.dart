@@ -40,9 +40,6 @@ abstract class _ScheduleControllerBase with Store {
   bool _loading = false;
 
   @observable
-  bool _isCompleted = false;
-
-  @observable
   Color? color;
 
   @observable
@@ -59,9 +56,6 @@ abstract class _ScheduleControllerBase with Store {
 
   @computed
   bool get loading => _loading;
-
-  @computed
-  bool get isCompleted => _isCompleted;
 
   @computed
   String get selectedPriority => _selectedPriority;
@@ -101,7 +95,7 @@ abstract class _ScheduleControllerBase with Store {
             date: selectedDate,
             time: toBRDHr(timeOfDay),
             priority: _selectedPriority,
-            completed: false,
+            isCompleted: false,
           );
 
           // Adicionar a tarefa ao Firestore
@@ -160,7 +154,7 @@ abstract class _ScheduleControllerBase with Store {
             'date': selectedDate,
             'time': toBRDHr(timeOfDay),
             'priority': _selectedPriority,
-            'isCompleted': false, // Inicialmente, a tarefa não está concluída
+            'isCompleted': false,
           };
 
           await _firestoreRepository.updateTask(taskId, data);
@@ -181,11 +175,13 @@ abstract class _ScheduleControllerBase with Store {
   }
 
   @action
-  Future<void> markTaskAsCompleted(String taskId, bool isCompleted) async {
+  Future<void> markTaskAsCompleted(
+      BuildContext context, String taskId, bool isCompleted) async {
     try {
       await _firestoreRepository
           .updateTask(taskId, {'isCompleted': isCompleted});
       await fetchTasks();
+      Navigator.of(context).pushNamedAndRemoveUntil("/home", (route) => true);
     } catch (e) {
       rethrow;
     }
@@ -285,9 +281,9 @@ abstract class _ScheduleControllerBase with Store {
   }
 
   @action
-  toggleComplete(BuildContext context, String taskId) async {
-    _isCompleted = !_isCompleted;
-    await markTaskAsCompleted(taskId, isCompleted);
+  toggleComplete(BuildContext context, String taskId, bool isCompleted) async {
+    isCompleted = !isCompleted;
+    await markTaskAsCompleted(context, taskId, isCompleted);
   }
 
   @action
