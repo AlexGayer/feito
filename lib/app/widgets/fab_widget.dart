@@ -1,32 +1,24 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
-import 'package:mobx/mobx.dart';
 
-class FABWidget extends StatefulWidget {
+class FABWidget extends StatelessWidget {
   final Function() onPressed;
-  Observable<bool> isOpened;
-  FABWidget({super.key, required this.onPressed, required this.isOpened});
+  final bool isOpened;
+
+  FABWidget({Key? key, required this.onPressed, required this.isOpened})
+      : super(key: key);
 
   @override
-  State<FABWidget> createState() => _FABWidgetState();
-}
-
-class _FABWidgetState extends State<FABWidget>
-    with SingleTickerProviderStateMixin {
-  final duration = const Duration(milliseconds: 300);
-
-  Widget toggle() {
+  Widget build(BuildContext context) {
     return AnimatedSlide(
       curve: Curves.ease,
-      offset: !widget.isOpened.value ? Offset.zero : const Offset(0, 1),
-      duration: duration,
+      offset: !isOpened ? Offset.zero : const Offset(0, 1),
+      duration: const Duration(milliseconds: 300),
       child: AnimatedOpacity(
-        duration: duration,
-        opacity: !widget.isOpened.value ? 1 : 0,
+        duration: const Duration(milliseconds: 300),
+        opacity: !isOpened ? 1 : 0,
         child: FloatingActionButton(
           materialTapTargetSize: MaterialTapTargetSize.padded,
-          onPressed: widget.onPressed,
+          onPressed: onPressed,
           child: const Icon(
             Icons.add,
             color: Colors.black,
@@ -34,10 +26,5 @@ class _FABWidgetState extends State<FABWidget>
         ),
       ),
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return toggle();
   }
 }

@@ -7,7 +7,6 @@ import 'package:feito/app/widgets/fab_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:mobx/mobx.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,11 +18,16 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends WidgetStateful<HomePage, ScheduleController> {
   @override
   void initState() {
-    controller.initState();
     super.initState();
+    controller.initState();
   }
 
-  final onDateSelected = DateTime.now();
+  @override
+  void dispose() {
+    print("dispose");
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,16 +46,19 @@ class _HomePageState extends WidgetStateful<HomePage, ScheduleController> {
             child: Scaffold(
               appBar: AppBar(
                 automaticallyImplyLeading: false,
-                title: Text("Olá, Alexandre",
-                    style: Theme.of(context).textTheme.titleLarge),
+                title: Text(
+                  "Olá, Alexandre",
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
                 backgroundColor: Colors.transparent,
                 actions: [
                   IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        MdiIcons.bell,
-                        color: Colors.white,
-                      )),
+                    onPressed: () {},
+                    icon: Icon(
+                      MdiIcons.bell,
+                      color: Colors.white,
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: ClipOval(
@@ -98,30 +105,30 @@ class _HomePageState extends WidgetStateful<HomePage, ScheduleController> {
                               SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.55,
-                                child: Observer(
-                                  builder: (_) => ListView.builder(
-                                    scrollDirection: Axis.vertical,
-                                    itemCount: controller.taskList.length,
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, index) {
-                                      var task = controller.taskList[index];
-                                      return CardTaskWidget(
-                                        name: task.name,
-                                        descripion: task.description,
-                                        date: controller.toBRDt(task.date),
-                                        time: task.time,
-                                        color: task.getPriorityColor(),
-                                        completedColor:
-                                            task.getCompletedColor(),
-                                        onDelete: () => controller.deleteTask(
-                                            context, task.id),
-                                        onComplete: () => task.id,
-                                        onEdit: () {},
-                                        id: task.id,
-                                        completed: task.isCompleted,
-                                      );
-                                    },
-                                  ),
+                                child: ListView.builder(
+                                  scrollDirection: Axis.vertical,
+                                  itemCount: controller.taskList.length,
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    var task = controller.taskList[index];
+                                    return CardTaskWidget(
+                                      task: task,
+                                      name: task.name,
+                                      descripion: task.description,
+                                      date: controller.toBRDt(task.date),
+                                      time: task.time,
+                                      color: task.getPriorityColor(),
+                                      completedColor: task.getCompletedColor(),
+                                      onDelete: () => controller.deleteTask(
+                                          context, task.id),
+                                      onComplete: () =>
+                                          controller.toggleComplete(context,
+                                              task.id, task.isCompleted),
+                                      onEdit: () {},
+                                      id: task.id,
+                                      completed: task.isCompleted,
+                                    );
+                                  },
                                 ),
                               ),
                             ],
@@ -130,29 +137,34 @@ class _HomePageState extends WidgetStateful<HomePage, ScheduleController> {
                 ],
               ),
               floatingActionButton: Observer(
-                builder: (context) => FABWidget(
-                  isOpened: controller.isOpened.obs(),
+                builder: (_) => FABWidget(
+                  isOpened: controller.isOpened,
                   onPressed: () {
                     controller.setIsOpened(true);
                     showGeneralDialog(
-                        context: context,
-                        barrierLabel: "Label",
-                        barrierDismissible: false,
-                        barrierColor: Colors.black.withOpacity(0.6),
-                        transitionDuration: const Duration(milliseconds: 500),
-                        pageBuilder: (context, anim1, anim2) {
-                          return const SizedBox.expand(
-                              child: CustomDialogWidget());
-                        },
-                        transitionBuilder: (context, anim1, anim2, child) {
-                          return SlideTransition(
-                            position: Tween(
-                                    begin: const Offset(0, 1),
-                                    end: const Offset(0, 0))
-                                .animate(anim1),
-                            child: child,
-                          );
-                        });
+                      context: context,
+                      barrierLabel: "",
+                      barrierDismissible: false,
+                      barrierColor: Colors.black.withOpacity(0.6),
+                      transitionDuration: const Duration(milliseconds: 500),
+                      pageBuilder: (context, anim1, anim2) {
+                        return const SizedBox.expand(
+                          child: CustomDialogWidget(),
+                        );
+                      },
+                      transitionBuilder: (context, anim1, anim2, child) {
+                        return SlideTransition(
+                          position: Tween(
+                            begin: const Offset(0, 1),
+                            end: const Offset(0, 0),
+                          ).animate(anim1),
+                          child: child,
+                        );
+                      },
+                    ).then((_) => setState(() {
+                          controller.setIsOpened(false);
+                          controller.fetchTasks();
+                        }));
                   },
                 ),
               ),

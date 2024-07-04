@@ -107,24 +107,26 @@ abstract class _ScheduleControllerBase with Store {
 
           clearTextController();
 
-          _isOpened = false;
           _loading = false;
         }
       }
     } catch (e) {
       clearTextController();
-      _isOpened = false;
+
       _loading = false;
     }
   }
 
   Future<void> fetchTasks() async {
+    _loading = true;
     try {
       List<Task> allTasks = await _firestoreRepository.fetchTasks();
       taskList =
           allTasks.where((task) => isSameDay(task.date, selectedDate)).toList();
       taskList.sort((a, b) => a.time.compareTo(b.time));
+      _loading = true;
     } catch (e) {
+      _loading = true;
       rethrow;
     }
   }
@@ -133,10 +135,12 @@ abstract class _ScheduleControllerBase with Store {
   Future<void> deleteTask(BuildContext context, String taskId) async {
     try {
       await _firestoreRepository.deleteTask(taskId);
-      Navigator.of(context).pushNamedAndRemoveUntil(
-        "/home",
-        (route) => true,
-      );
+      await fetchTasks();
+
+      // Navigator.of(context).pushNamedAndRemoveUntil(
+      //   "/home",
+      //   (route) => true,
+      // );
     } catch (e) {
       rethrow;
     }
@@ -181,7 +185,6 @@ abstract class _ScheduleControllerBase with Store {
       await _firestoreRepository
           .updateTask(taskId, {'isCompleted': isCompleted});
       await fetchTasks();
-      Navigator.of(context).pushNamedAndRemoveUntil("/home", (route) => true);
     } catch (e) {
       rethrow;
     }
@@ -261,18 +264,9 @@ abstract class _ScheduleControllerBase with Store {
   }
 
   @action
-  closeDialog(BuildContext context) async {
-    Navigator.of(context).pushNamedAndRemoveUntil(
-      "/home",
-      (route) => true,
-    );
-
-    _isOpened = false;
-  }
-
-  @action
   void setIsOpened(bool isOpen) {
     _isOpened = isOpen;
+    print(_isOpened);
   }
 
   @action

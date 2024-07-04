@@ -1,10 +1,14 @@
 import 'package:feito/app/controller/schedule_controller.dart';
+import 'package:feito/app/domain/model/task.dart';
 import 'package:feito/app/global/dialog_helper.dart';
 import 'package:feito/app/global/widget_stateful.dart';
+
+import 'package:feito/app/widgets/edit_custom_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class CardTaskWidget extends StatefulWidget {
+  final Task task;
   final String name;
   final String descripion;
   final String date;
@@ -19,6 +23,7 @@ class CardTaskWidget extends StatefulWidget {
 
   const CardTaskWidget({
     super.key,
+    required this.task,
     required this.name,
     required this.descripion,
     required this.date,
@@ -38,6 +43,11 @@ class CardTaskWidget extends StatefulWidget {
 
 class _CardTaskWidgetState
     extends WidgetStateful<CardTaskWidget, ScheduleController> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dismissible(
@@ -73,19 +83,27 @@ class _CardTaskWidgetState
       ),
       confirmDismiss: (direction) async {
         if (direction == DismissDirection.startToEnd) {
-          final result = await showDialog<bool>(
+          final result = await showGeneralDialog<bool>(
             context: context,
-            builder: (BuildContext context) {
-              TextEditingController nameController =
-                  TextEditingController(text: widget.name);
-              TextEditingController descriptionController =
-                  TextEditingController(text: widget.descripion);
-              return EditDialogWidget(
-                  controller: controller,
-                  nameController: nameController,
-                  descriptionController: descriptionController,
-                  onEdit: widget.onEdit,
-                  id: widget.id);
+            barrierLabel: "",
+            barrierDismissible: false,
+            barrierColor: Colors.black.withOpacity(0.6),
+            transitionDuration: const Duration(milliseconds: 500),
+            pageBuilder: (context, anim1, anim2) {
+              return SizedBox.expand(
+                child: EditCustomDialogWidget(
+                  task: widget.task,
+                ),
+              );
+            },
+            transitionBuilder: (context, anim1, anim2, child) {
+              return SlideTransition(
+                position: Tween(
+                  begin: const Offset(0, 1),
+                  end: const Offset(0, 0),
+                ).animate(anim1),
+                child: child,
+              );
             },
           );
           return result ?? false;
@@ -138,7 +156,7 @@ class _CardTaskWidgetState
                                 ? widget.completedColor
                                 : Colors.white,
                           ),
-                        ),
+                        )
                       ],
                     ),
                     Text(widget.descripion,
@@ -155,36 +173,5 @@ class _CardTaskWidgetState
             )),
       ),
     );
-  }
-}
-
-class EditDialogWidget extends StatelessWidget {
-  final ScheduleController controller;
-  final TextEditingController nameController;
-  final TextEditingController descriptionController;
-  final Function onEdit;
-  final String id;
-
-  const EditDialogWidget({
-    super.key,
-    required this.controller,
-    required this.nameController,
-    required this.descriptionController,
-    required this.onEdit,
-    required this.id,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-        backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        content: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.5,
-          width: MediaQuery.of(context).size.width,
-          child: SingleChildScrollView(),
-        ));
   }
 }

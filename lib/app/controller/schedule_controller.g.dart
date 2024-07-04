@@ -217,14 +217,6 @@ mixin _$ScheduleController on _ScheduleControllerBase, Store {
     return _$datePickerAsyncAction.run(() => super.datePicker(context));
   }
 
-  late final _$closeDialogAsyncAction =
-      AsyncAction('_ScheduleControllerBase.closeDialog', context: context);
-
-  @override
-  Future closeDialog(BuildContext context) {
-    return _$closeDialogAsyncAction.run(() => super.closeDialog(context));
-  }
-
   late final _$toggleCompleteAsyncAction =
       AsyncAction('_ScheduleControllerBase.toggleComplete', context: context);
 

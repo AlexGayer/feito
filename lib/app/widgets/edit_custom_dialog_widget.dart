@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:feito/app/controller/schedule_controller.dart';
+import 'package:feito/app/domain/model/task.dart';
 import 'package:feito/app/global/widget_stateful.dart';
 import 'package:feito/app/widgets/elevated_button_priority_widget.dart';
 import 'package:feito/app/widgets/elevated_button_widget.dart';
@@ -10,15 +11,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class CustomDialogWidget extends StatefulWidget {
-  const CustomDialogWidget({super.key});
+class EditCustomDialogWidget extends StatefulWidget {
+  final Task task;
+  const EditCustomDialogWidget({super.key, required this.task});
 
   @override
-  _CustomDialogWidgetState createState() => _CustomDialogWidgetState();
+  _EditCustomDialogWidgetState createState() => _EditCustomDialogWidgetState();
 }
 
-class _CustomDialogWidgetState
-    extends WidgetStateful<CustomDialogWidget, ScheduleController> {
+class _EditCustomDialogWidgetState
+    extends WidgetStateful<EditCustomDialogWidget, ScheduleController> {
   @override
   void initState() {
     super.initState();
@@ -48,7 +50,7 @@ class _CustomDialogWidgetState
                       Padding(
                         padding: const EdgeInsets.only(
                             top: 20.0, bottom: 20.0, left: 20),
-                        child: Text("Criar nova tarefa",
+                        child: Text("Tarefa ${widget.task.name}",
                             style: Theme.of(context).textTheme.titleLarge),
                       ),
                       IconButton(
@@ -64,7 +66,7 @@ class _CustomDialogWidgetState
                     padding: const EdgeInsets.only(left: 10.0, right: 10),
                     child: TextFieldContainer(
                       controller: controller.tarefaCtrl,
-                      hintText: "Nome da Tarefa",
+                      hintText: widget.task.name,
                       validatorText: "Informe o nome da tarefa !",
                     ),
                   ),
@@ -72,7 +74,7 @@ class _CustomDialogWidgetState
                     padding: const EdgeInsets.only(left: 10.0, right: 10),
                     child: TextFieldContainer(
                       controller: controller.descrCtrl,
-                      hintText: "Descrição",
+                      hintText: widget.task.description,
                       validatorText: "Informe a descrição da tarefa !",
                     ),
                   ),
@@ -82,14 +84,14 @@ class _CustomDialogWidgetState
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         TextButtonContainer(
-                          hintText: "Data",
+                          hintText: controller.toBRDt(widget.task.date),
                           timeCtrl: controller.dateCtrl,
                           onPressed: () => controller.datePicker(context),
                           validatorText: "Informe uma data !",
                           icon: MdiIcons.calendar,
                         ),
                         TextButtonContainer(
-                          hintText: "Horário",
+                          hintText: widget.task.time,
                           validatorText: "Informe um horário !",
                           timeCtrl: controller.timeCtrl,
                           onPressed: () => controller.timePicker(context),
@@ -158,7 +160,7 @@ class _CustomDialogWidgetState
                         borderRadius: BorderRadius.circular(20),
                         onPressed: () {
                           if (controller.formKey.currentState!.validate()) {
-                            controller.addTask(context);
+                            controller.updateTask(context, widget.task.id);
 
                             // !controller.isOpened;
                             // Navigator.of(context).pushNamedAndRemoveUntil(
@@ -169,7 +171,7 @@ class _CustomDialogWidgetState
                           }
                         },
                         child: Text(
-                          "Registrar Tarefa",
+                          "Alterar Tarefa",
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                       ),
