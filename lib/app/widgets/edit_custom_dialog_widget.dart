@@ -177,10 +177,7 @@ class _EditCustomDialogWidgetState
                                 );
                           }
                         },
-                        child: Text(
-                          "Alterar Tarefa",
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
+                        label: "Alterar Tarefa",
                       ),
                     ),
                   )

@@ -9,33 +9,33 @@ part of 'login_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$LoginController on _LoginControllerBase, Store {
-  Computed<bool>? _$firstAccessComputed;
-
-  @override
-  bool get firstAccess =>
-      (_$firstAccessComputed ??= Computed<bool>(() => super.firstAccess,
-              name: '_LoginControllerBase.firstAccess'))
-          .value;
   Computed<bool>? _$loadingComputed;
 
   @override
   bool get loading => (_$loadingComputed ??= Computed<bool>(() => super.loading,
           name: '_LoginControllerBase.loading'))
       .value;
-
-  late final _$_firtAccessAtom =
-      Atom(name: '_LoginControllerBase._firtAccess', context: context);
+  Computed<bool>? _$firstLoginComputed;
 
   @override
-  bool get _firtAccess {
-    _$_firtAccessAtom.reportRead();
-    return super._firtAccess;
+  bool get firstLogin =>
+      (_$firstLoginComputed ??= Computed<bool>(() => super.firstLogin,
+              name: '_LoginControllerBase.firstLogin'))
+          .value;
+
+  late final _$_firstLoginAtom =
+      Atom(name: '_LoginControllerBase._firstLogin', context: context);
+
+  @override
+  bool get _firstLogin {
+    _$_firstLoginAtom.reportRead();
+    return super._firstLogin;
   }
 
   @override
-  set _firtAccess(bool value) {
-    _$_firtAccessAtom.reportWrite(value, super._firtAccess, () {
-      super._firtAccess = value;
+  set _firstLogin(bool value) {
+    _$_firstLoginAtom.reportWrite(value, super._firstLogin, () {
+      super._firstLogin = value;
     });
   }
 
@@ -83,11 +83,11 @@ mixin _$LoginController on _LoginControllerBase, Store {
       ActionController(name: '_LoginControllerBase', context: context);
 
   @override
-  dynamic changeFirstAcces() {
+  void setFirstLogin(bool firstLog) {
     final _$actionInfo = _$_LoginControllerBaseActionController.startAction(
-        name: '_LoginControllerBase.changeFirstAcces');
+        name: '_LoginControllerBase.setFirstLogin');
     try {
-      return super.changeFirstAcces();
+      return super.setFirstLogin(firstLog);
     } finally {
       _$_LoginControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -96,8 +96,8 @@ mixin _$LoginController on _LoginControllerBase, Store {
   @override
   String toString() {
     return '''
-firstAccess: ${firstAccess},
-loading: ${loading}
+loading: ${loading},
+firstLogin: ${firstLogin}
     ''';
   }
 }

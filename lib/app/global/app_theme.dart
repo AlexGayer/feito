@@ -18,8 +18,10 @@ final darkTheme = ThemeData(
     textTheme: const TextTheme(
       titleLarge: TextStyle(
           color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-      titleMedium: TextStyle(color: Colors.white, fontSize: 16),
-      titleSmall: TextStyle(color: Colors.white, fontSize: 12),
+      titleMedium: TextStyle(
+          color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+      titleSmall: TextStyle(
+          color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
       bodyLarge: TextStyle(color: Colors.white),
       bodyMedium: TextStyle(color: Colors.white),
       bodySmall: TextStyle(color: Colors.white),

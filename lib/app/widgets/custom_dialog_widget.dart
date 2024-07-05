@@ -160,18 +160,10 @@ class _CustomDialogWidgetState
                           if (controller.formKey.currentState!.validate()) {
                             controller.addTask(context);
 
-                            // !controller.isOpened;
-                            // Navigator.of(context).pushNamedAndRemoveUntil(
-                            //   "/home",
-                            //   (route) => false,
-                            // );
                             Navigator.of(context).pop();
                           }
                         },
-                        child: Text(
-                          "Registrar Tarefa",
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
+                        label: "Registrar Tarefa",
                       ),
                     ),
                   )

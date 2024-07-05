@@ -8,16 +8,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({
+class PasswordWidget extends StatefulWidget {
+  const PasswordWidget({
     super.key,
   });
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<PasswordWidget> createState() => _PasswordWidgetState();
 }
 
-class _LoginPageState extends WidgetStateful<LoginPage, LoginController> {
+class _PasswordWidgetState
+    extends WidgetStateful<PasswordWidget, LoginController> {
   @override
   void initState() {
     super.initState();
@@ -75,7 +76,7 @@ class _LoginPageState extends WidgetStateful<LoginPage, LoginController> {
                         ),
                         TextButton(
                             onPressed: () => Navigator.of(context)
-                                .pushReplacementNamed("/password"),
+                                .pushReplacementNamed("/cadastro"),
                             child: Text("Esqueceu sua senha ?",
                                 style: Theme.of(context).textTheme.bodySmall)),
                         const SizedBox(height: 20),
@@ -90,25 +91,10 @@ class _LoginPageState extends WidgetStateful<LoginPage, LoginController> {
                                 : ElevatedButtonWidget(
                                     onPressed: () async {
                                       controller.login(context);
-                                      controller.setFirstLogin(false);
                                     },
-                                    label: "Acessar",
+                                    label: "Alterar Senha",
                                   ),
                           ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text("Não é cadastrado?",
-                                style: Theme.of(context).textTheme.bodySmall),
-                            TextButton(
-                                onPressed: () => Navigator.of(context)
-                                    .pushNamed("/cadastro"),
-                                child: Text(
-                                  "Cadastre-se",
-                                  style: Theme.of(context).textTheme.labelSmall,
-                                ))
-                          ],
                         ),
                       ],
                     ))

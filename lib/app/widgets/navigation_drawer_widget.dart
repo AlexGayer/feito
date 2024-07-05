@@ -54,19 +54,19 @@ class NavigationDrawerWidget extends StatelessWidget {
                     Navigator.of(context).pushReplacementNamed("/home"),
                 icon: MdiIcons.home),
             ListTileDrawerWidget(
-                title: "Notificações",
+                title: "Início",
                 onTap: () =>
-                    Navigator.of(context).pushReplacementNamed("/home"),
+                    Navigator.of(context).pushReplacementNamed("/inicial"),
                 icon: MdiIcons.bell),
             ListTileDrawerWidget(
-                title: "Tarefas Realizadas",
+                title: "Cadastro",
                 onTap: () =>
-                    Navigator.of(context).pushReplacementNamed("/home"),
+                    Navigator.of(context).pushReplacementNamed("/cadastro"),
                 icon: MdiIcons.calendarCheck),
             ListTileDrawerWidget(
                 title: "Sair",
                 onTap: () =>
-                    Navigator.of(context).pushReplacementNamed("/login"),
+                    Navigator.of(context).pushReplacementNamed("/inicial"),
                 icon: MdiIcons.exitToApp),
           ],
         ),

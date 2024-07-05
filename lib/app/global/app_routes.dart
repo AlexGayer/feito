@@ -1,6 +1,9 @@
 import 'package:feito/app/global/app_constants.dart';
+import 'package:feito/app/pages/cadastro_page.dart';
 import 'package:feito/app/pages/home_page.dart';
+import 'package:feito/app/pages/inicial_page.dart';
 import 'package:feito/app/pages/login_page.dart';
+import 'package:feito/app/pages/password_widget.dart';
 import 'package:flutter/material.dart';
 
 class Routes {
@@ -11,6 +14,15 @@ class Routes {
 
       case loginRouter:
         return SlideRightRoute(widget: const LoginPage());
+
+      case inicialRouter:
+        return SlideRightRoute(widget: const InicialPage());
+
+      case cadastroRouter:
+        return SlideRightRoute(widget: const CadastroPage());
+
+      case passwordRouter:
+        return SlideRightRoute(widget: const PasswordWidget());
 
       default:
         return SlideRightRoute(widget: const Scaffold());

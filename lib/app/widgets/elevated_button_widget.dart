@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 class ElevatedButtonWidget extends StatelessWidget {
   final BorderRadiusGeometry? borderRadius;
   final double? width;
+  final String label;
   final double height;
   final Gradient gradient;
   final VoidCallback? onPressed;
-  final Widget child;
 
   const ElevatedButtonWidget({
     super.key,
     required this.onPressed,
-    required this.child,
+    required this.label,
     this.borderRadius,
     this.width,
     this.height = 44.0,
@@ -21,7 +21,7 @@ class ElevatedButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final borderRadius = this.borderRadius ?? BorderRadius.circular(0);
+    final borderRadius = this.borderRadius ?? BorderRadius.circular(20);
     return Container(
       width: width,
       height: height,
@@ -36,7 +36,7 @@ class ElevatedButtonWidget extends StatelessWidget {
           shadowColor: Colors.transparent,
           shape: RoundedRectangleBorder(borderRadius: borderRadius),
         ),
-        child: child,
+        child: Text(label, style: Theme.of(context).textTheme.titleLarge),
       ),
     );
   }

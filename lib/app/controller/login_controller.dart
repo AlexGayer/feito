@@ -23,28 +23,23 @@ abstract class _LoginControllerBase with Store {
   _LoginControllerBase();
 
   @observable
-  bool _firtAccess = false;
+  bool _firstLogin = false;
 
   @observable
   bool _loading = false;
 
   @computed
-  bool get firstAccess => _firtAccess;
-
-  @computed
   bool get loading => _loading;
 
-  @action
-  changeFirstAcces() {
-    _firtAccess = !_firtAccess;
-  }
+  @computed
+  bool get firstLogin => _firstLogin;
 
   @action
   Future login(BuildContext context) async {
     try {
       if (formKey.currentState != null) {
         if (formKey.currentState!.validate()) {
-          if (_firtAccess) {
+          if (_firstLogin) {
             await _signUp(context);
           } else {
             await _signIn(context);
@@ -94,6 +89,11 @@ abstract class _LoginControllerBase with Store {
         _loading = false;
       }
     }
+  }
+
+  @action
+  void setFirstLogin(bool firstLog) {
+    _firstLogin = firstLog;
   }
 
   saveCampos() async {
