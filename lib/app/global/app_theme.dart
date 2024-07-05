@@ -32,7 +32,8 @@ final darkTheme = ThemeData(
           color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold),
       displayMedium: TextStyle(color: Colors.black, fontSize: 18),
       displaySmall: TextStyle(color: Colors.black, fontSize: 12),
-      headlineLarge: TextStyle(color: Colors.white),
+      headlineLarge: TextStyle(
+          color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
       headlineMedium: TextStyle(color: Colors.white),
       headlineSmall: TextStyle(color: Colors.white),
     ),

@@ -3,6 +3,7 @@ import 'package:feito/app/domain/model/task.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class FirestoreRepository {
+  Future<void> addUser(String userId, String email, String displayName);
   Future<void> addTask(Task task);
   Future<List<Task>> fetchTasks();
   Future<void> deleteTask(String taskId);
@@ -14,6 +15,19 @@ class FirestoreRepositoryImpl implements FirestoreRepository {
   final FirebaseFirestore firestore;
 
   FirestoreRepositoryImpl(this.firestore);
+
+  @override
+  Future<void> addUser(String userId, String email, String displayName) async {
+    try {
+      await firestore.collection('users').doc(userId).set({
+        'email': email,
+        'displayName': displayName,
+        // Adicione outros campos de usuário conforme necessário
+      });
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   @override
   Future<void> addTask(Task task) async {

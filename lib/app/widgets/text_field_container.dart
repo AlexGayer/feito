@@ -10,21 +10,25 @@ class TextFieldContainer extends StatefulWidget {
   final FocusNode? focus;
   final String? validatorText;
   final bool? pwd;
-
+  final bool? email;
+  final bool? newPwd;
   final List<TextInputFormatter>? inputFormatters;
   final TextInputType? keyboardType;
 
-  const TextFieldContainer(
-      {super.key,
-      this.hintText,
-      this.icon,
-      this.onChanged,
-      this.controller,
-      this.focus,
-      this.validatorText,
-      this.inputFormatters,
-      this.keyboardType,
-      this.pwd});
+  const TextFieldContainer({
+    super.key,
+    this.hintText,
+    this.icon,
+    this.onChanged,
+    this.controller,
+    this.focus,
+    this.validatorText,
+    this.inputFormatters,
+    this.keyboardType,
+    this.pwd,
+    this.email,
+    this.newPwd,
+  });
 
   @override
   State<TextFieldContainer> createState() => _TextFieldContainerState();
@@ -32,6 +36,7 @@ class TextFieldContainer extends StatefulWidget {
 
 class _TextFieldContainerState extends State<TextFieldContainer> {
   bool visible = false;
+
   @override
   void initState() {
     super.initState();
@@ -51,6 +56,24 @@ class _TextFieldContainerState extends State<TextFieldContainer> {
         validator: (value) {
           if (value!.isEmpty) {
             return widget.validatorText;
+          }
+
+          if (widget.email == true) {
+            if (!value.contains('@')) {
+              return 'O email deve conter "@"';
+            }
+          }
+
+          if (widget.pwd == true) {
+            if (value.length < 6) {
+              return 'A senha deve ter no mínimo 6 dígitos';
+            }
+          }
+
+          if (widget.newPwd == true && widget.pwd == true) {
+            if (value != widget.controller!.text) {
+              return 'A senha e a confirmação devem ser iguais';
+            }
           }
 
           return null;

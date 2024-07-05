@@ -37,7 +37,8 @@ Future<_i1.GetIt> $initGetIt(
   gh.factory<_i5.FirebaseFirestore>(() => firebaseModule.firestore);
   gh.factory<_i6.FirestoreRepository>(
       () => _i6.FirestoreRepositoryImpl(get<_i5.FirebaseFirestore>()));
-  gh.factory<_i7.LoginController>(() => _i7.LoginController());
+  gh.factory<_i7.LoginController>(
+      () => _i7.LoginController(get<_i6.FirestoreRepository>()));
   gh.factory<_i8.ScheduleController>(
       () => _i8.ScheduleController(get<_i6.FirestoreRepository>()));
   return get;

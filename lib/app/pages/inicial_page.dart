@@ -25,42 +25,44 @@ class _InicialPageState extends WidgetStateful<InicialPage, LoginController> {
       body: GradientBackgroundWidget(
         child: SingleChildScrollView(
           child: Container(
-            height: size.height,
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.3,
-                  child: Image.asset("images/todo.png"),
-                ),
-                Text(
-                  "Bem Vindo !",
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(height: 5),
-                SizedBox(height: size.height * 0.05),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: controller.loading
-                          ? const Center(
-                              child: CircularProgressIndicator(),
-                            )
-                          : ElevatedButtonWidget(
-                              onPressed: () =>
-                                  Navigator.of(context).pushNamed("/login"),
-                              label: "Iniciar",
-                            ),
+            height: size.height,
+            width: double.infinity,
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    width: double.infinity,
+                    child: Image.asset("images/todo.png"),
+                  ),
+                  const SizedBox(height: 5),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    width: double.infinity,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Bem-vindo !",
+                            style: Theme.of(context).textTheme.headlineLarge),
+                        controller.loading
+                            ? const Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : ElevatedButtonWidget(
+                                height: 50,
+                                width: size.width,
+                                onPressed: () =>
+                                    Navigator.of(context).pushNamed("/login"),
+                                label: "Iniciar",
+                              ),
+                      ],
                     ),
-                  ],
-                )
-              ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
