@@ -262,7 +262,6 @@ abstract class _ScheduleControllerBase with Store {
   @action
   void setIsOpened(bool isOpen) {
     _isOpened = isOpen;
-    print(_isOpened);
   }
 
   @action

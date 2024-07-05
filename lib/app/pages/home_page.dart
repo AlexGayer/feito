@@ -2,6 +2,7 @@ import 'package:feito/app/controller/schedule_controller.dart';
 import 'package:feito/app/global/widget_stateful.dart';
 import 'package:feito/app/widgets/card_task_widget.dart';
 import 'package:feito/app/widgets/custom_dialog_widget.dart';
+import 'package:feito/app/widgets/navigation_drawer_widget.dart';
 import 'package:feito/app/widgets/week_day_slider_widget.dart';
 import 'package:feito/app/widgets/fab_widget.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,6 @@ class _HomePageState extends WidgetStateful<HomePage, ScheduleController> {
 
   @override
   void dispose() {
-    print("dispose");
     super.dispose();
   }
 
@@ -45,9 +45,9 @@ class _HomePageState extends WidgetStateful<HomePage, ScheduleController> {
           SafeArea(
             child: Scaffold(
               appBar: AppBar(
-                automaticallyImplyLeading: false,
+                iconTheme: const IconThemeData(color: Colors.white),
                 title: Text(
-                  "Olá, Alexandre",
+                  "Feito",
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 backgroundColor: Colors.transparent,
@@ -136,6 +136,7 @@ class _HomePageState extends WidgetStateful<HomePage, ScheduleController> {
                   ),
                 ],
               ),
+              drawer: const NavigationDrawerWidget(),
               floatingActionButton: Observer(
                 builder: (_) => FABWidget(
                   isOpened: controller.isOpened,

@@ -4,8 +4,7 @@ class FABWidget extends StatelessWidget {
   final Function() onPressed;
   final bool isOpened;
 
-  FABWidget({Key? key, required this.onPressed, required this.isOpened})
-      : super(key: key);
+  const FABWidget({super.key, required this.onPressed, required this.isOpened});
 
   @override
   Widget build(BuildContext context) {
