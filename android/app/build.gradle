@@ -23,11 +23,9 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-
-
 android {
-    namespace "com.example.feito"
-    compileSdk flutter.compileSdkVersion
+    namespace "com.alexgayer"
+    compileSdk 34
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -45,11 +43,11 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.feito"
+        applicationId "com.alexgayer"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
+        minSdk = 28  //flutter.minSdkVersion
+        targetSdk = 34  //flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -69,4 +67,12 @@ flutter {
 
 dependencies {
     implementation platform('com.google.firebase:firebase-bom:33.1.1')
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.22"))
+    implementation "androidx.multidex:multidex:2.0.1"
+}
+
+configurations.implementation {
+    exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk8'
+    exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk7'
 }

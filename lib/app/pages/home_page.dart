@@ -52,77 +52,79 @@ class _HomePageState extends WidgetStateful<HomePage, ScheduleController> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: ClipOval(
-                  child: Image.asset('images/foto.png'),
+                  child: Image.asset("assets/images/todo.png"),
                 ),
               ),
             ],
           ),
           backgroundColor: Colors.transparent,
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.1,
-                width: double.infinity,
-                child: WeekSlider(
-                  initialDate: controller.selectedDate,
-                  onDateSelected: (date) {
-                    setState(() {
-                      controller.selectedDate = date;
-                      controller.fetchTasks();
-                    });
-                  },
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.1,
+                  width: double.infinity,
+                  child: WeekSlider(
+                    initialDate: controller.selectedDate,
+                    onDateSelected: (date) {
+                      setState(() {
+                        controller.selectedDate = date;
+                        controller.fetchTasks();
+                      });
+                    },
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              Observer(
-                builder: (_) => controller.taskList.isEmpty
-                    ? SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.55,
-                      )
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(left: 10.0),
-                            child: Text(
-                              "Tarefas",
-                              style: Theme.of(context).textTheme.titleLarge,
+                const SizedBox(height: 20),
+                Observer(
+                  builder: (_) => controller.taskList.isEmpty
+                      ? SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.55,
+                        )
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(left: 10.0),
+                              child: Text(
+                                "Tarefas",
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 20),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.55,
-                            child: ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              itemCount: controller.taskList.length,
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) {
-                                var task = controller.taskList[index];
-                                return CardTaskWidget(
-                                  task: task,
-                                  name: task.name,
-                                  descripion: task.description,
-                                  date: controller.toBRDt(task.date),
-                                  time: task.time,
-                                  color: task.getPriorityColor(),
-                                  completedColor: task.getCompletedColor(),
-                                  onDelete: () =>
-                                      controller.deleteTask(context, task.id),
-                                  onComplete: () => controller.toggleComplete(
-                                      context, task.id, task.isCompleted),
-                                  onEdit: () {},
-                                  id: task.id,
-                                  completed: task.isCompleted,
-                                );
-                              },
+                            const SizedBox(height: 20),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.55,
+                              child: ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                itemCount: controller.taskList.length,
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  var task = controller.taskList[index];
+                                  return CardTaskWidget(
+                                    task: task,
+                                    name: task.name,
+                                    descripion: task.description,
+                                    date: controller.toBRDt(task.date),
+                                    time: task.time,
+                                    color: task.getPriorityColor(),
+                                    completedColor: task.getCompletedColor(),
+                                    onDelete: () =>
+                                        controller.deleteTask(context, task.id),
+                                    onComplete: () => controller.toggleComplete(
+                                        context, task.id, task.isCompleted),
+                                    onEdit: () {},
+                                    id: task.id,
+                                    completed: task.isCompleted,
+                                  );
+                                },
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-              ),
-            ],
+                          ],
+                        ),
+                ),
+              ],
+            ),
           ),
           drawer: const NavigationDrawerWidget(),
           floatingActionButton: Observer(

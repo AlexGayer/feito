@@ -36,7 +36,7 @@ class _InicialPageState extends WidgetStateful<InicialPage, LoginController> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.3,
                     width: double.infinity,
-                    child: Image.asset("images/todo.png"),
+                    child: Image.asset("assets/images/todo.png"),
                   ),
                   const SizedBox(height: 5),
                   SizedBox(

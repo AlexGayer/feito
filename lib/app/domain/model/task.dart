@@ -55,13 +55,14 @@ class Task {
   }
 
   Color getCompletedColor() {
-    switch (isCompleted) {
-      case true:
-        return Colors.green;
-      case false:
-        return Colors.white;
-      default:
-        return Colors.white;
-    }
+    return isCompleted ? Colors.green : Colors.white;
+  }
+
+  // Converte a string de horário para TimeOfDay
+  TimeOfDay getTimeOfDay() {
+    final List<String> parts = time.split(':');
+    final int hour = int.parse(parts[0]);
+    final int minute = int.parse(parts[1]);
+    return TimeOfDay(hour: hour, minute: minute);
   }
 }

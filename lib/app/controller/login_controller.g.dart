@@ -39,6 +39,54 @@ mixin _$LoginController on _LoginControllerBase, Store {
     });
   }
 
+  late final _$nameAtom =
+      Atom(name: '_LoginControllerBase.name', context: context);
+
+  @override
+  String get name {
+    _$nameAtom.reportRead();
+    return super.name;
+  }
+
+  @override
+  set name(String value) {
+    _$nameAtom.reportWrite(value, super.name, () {
+      super.name = value;
+    });
+  }
+
+  late final _$mailAtom =
+      Atom(name: '_LoginControllerBase.mail', context: context);
+
+  @override
+  String get mail {
+    _$mailAtom.reportRead();
+    return super.mail;
+  }
+
+  @override
+  set mail(String value) {
+    _$mailAtom.reportWrite(value, super.mail, () {
+      super.mail = value;
+    });
+  }
+
+  late final _$pickedImageAtom =
+      Atom(name: '_LoginControllerBase.pickedImage', context: context);
+
+  @override
+  XFile? get pickedImage {
+    _$pickedImageAtom.reportRead();
+    return super.pickedImage;
+  }
+
+  @override
+  set pickedImage(XFile? value) {
+    _$pickedImageAtom.reportWrite(value, super.pickedImage, () {
+      super.pickedImage = value;
+    });
+  }
+
   late final _$_loadingAtom =
       Atom(name: '_LoginControllerBase._loading', context: context);
 
@@ -79,6 +127,73 @@ mixin _$LoginController on _LoginControllerBase, Store {
     return _$_signUpAsyncAction.run(() => super._signUp(context));
   }
 
+  late final _$reauthenticateAsyncAction =
+      AsyncAction('_LoginControllerBase.reauthenticate', context: context);
+
+  @override
+  Future<void> reauthenticate(String email, String password) {
+    return _$reauthenticateAsyncAction
+        .run(() => super.reauthenticate(email, password));
+  }
+
+  late final _$changePasswordAsyncAction =
+      AsyncAction('_LoginControllerBase.changePassword', context: context);
+
+  @override
+  Future<void> changePassword(BuildContext context) {
+    return _$changePasswordAsyncAction.run(() => super.changePassword(context));
+  }
+
+  late final _$getImageGalleryAsyncAction =
+      AsyncAction('_LoginControllerBase.getImageGallery', context: context);
+
+  @override
+  Future<dynamic> getImageGallery() {
+    return _$getImageGalleryAsyncAction.run(() => super.getImageGallery());
+  }
+
+  late final _$getImageCameraAsyncAction =
+      AsyncAction('_LoginControllerBase.getImageCamera', context: context);
+
+  @override
+  Future<dynamic> getImageCamera() {
+    return _$getImageCameraAsyncAction.run(() => super.getImageCamera());
+  }
+
+  late final _$uploadImageToFirebaseAsyncAction = AsyncAction(
+      '_LoginControllerBase.uploadImageToFirebase',
+      context: context);
+
+  @override
+  Future<void> uploadImageToFirebase() {
+    return _$uploadImageToFirebaseAsyncAction
+        .run(() => super.uploadImageToFirebase());
+  }
+
+  late final _$logOutAppAsyncAction =
+      AsyncAction('_LoginControllerBase.logOutApp', context: context);
+
+  @override
+  Future logOutApp(BuildContext context) {
+    return _$logOutAppAsyncAction.run(() => super.logOutApp(context));
+  }
+
+  late final _$getInfoUserAsyncAction =
+      AsyncAction('_LoginControllerBase.getInfoUser', context: context);
+
+  @override
+  Future getInfoUser() {
+    return _$getInfoUserAsyncAction.run(() => super.getInfoUser());
+  }
+
+  late final _$saveCamposAsyncAction =
+      AsyncAction('_LoginControllerBase.saveCampos', context: context);
+
+  @override
+  Future<void> saveCampos([String? photoURL]) {
+    return _$saveCamposAsyncAction.run(() => super.saveCampos(photoURL));
+  }
+
   late final _$_LoginControllerBaseActionController =
       ActionController(name: '_LoginControllerBase', context: context);
 
@@ -96,6 +211,9 @@ mixin _$LoginController on _LoginControllerBase, Store {
   @override
   String toString() {
     return '''
+name: ${name},
+mail: ${mail},
+pickedImage: ${pickedImage},
 loading: ${loading},
 firstLogin: ${firstLogin}
     ''';

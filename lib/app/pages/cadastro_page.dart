@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:feito/app/controller/login_controller.dart';
 import 'package:feito/app/global/widget_stateful.dart';
 import 'package:feito/app/widgets/custom_app_bar_widget.dart';
@@ -23,7 +25,6 @@ class _CadastroPageState extends WidgetStateful<CadastroPage, LoginController> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: const CustomAppBar(),
       body: GradientBackgroundWidget(
@@ -35,15 +36,50 @@ class _CadastroPageState extends WidgetStateful<CadastroPage, LoginController> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.3,
-                  child: Image.asset("images/todo.png"),
+                  height: MediaQuery.of(context).size.height * 0.25,
+                  child: Image.asset("/assets/images/todo.png"),
                 ),
                 Text(
-                  "Realize o seu cadastro",
+                  "Faça o cadastro de sua conta",
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
-                const SizedBox(height: 5),
-                SizedBox(height: size.height * 0.05),
+                Observer(
+                  builder: (_) => Column(
+                    children: [
+                      Stack(
+                        children: [
+                          CircleAvatar(
+                              radius: 100,
+                              backgroundColor: Colors.black,
+                              child: controller.pickedImage != null
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: Image.file(
+                                          File(controller.pickedImage!.path)),
+                                    )
+                                  : ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child:
+                                          Image.asset("assets/images/todo.png"),
+                                    )),
+                          Positioned(
+                            left: 120,
+                            bottom: 10,
+                            child: IconButton(
+                              onPressed: () async {
+                                await controller.getImageGallery();
+                              },
+                              icon: Icon(
+                                MdiIcons.cameraPlus,
+                                color: Colors.cyan,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
                 Form(
                     key: controller.formKey,
                     child: Column(
@@ -74,16 +110,6 @@ class _CadastroPageState extends WidgetStateful<CadastroPage, LoginController> {
                           validatorText: "Informe sua senha !",
                           icon: MdiIcons.lock,
                         ),
-                        const SizedBox(height: 10),
-                        TextFieldContainer(
-                          newPwd: true,
-                          pwd: true,
-                          focus: controller.focusNewPwd,
-                          controller: controller.newPwdCtrl,
-                          hintText: "Confirmar senha",
-                          validatorText: "Confirme sua senha !",
-                          icon: MdiIcons.lock,
-                        ),
                         const SizedBox(height: 20),
                         Observer(
                           builder: (_) => SizedBox(
@@ -95,8 +121,8 @@ class _CadastroPageState extends WidgetStateful<CadastroPage, LoginController> {
                                   )
                                 : ElevatedButtonWidget(
                                     onPressed: () async {
-                                      controller.login(context);
                                       controller.setFirstLogin(true);
+                                      controller.login(context);
                                     },
                                     label: "Realizar Cadastro",
                                   ),

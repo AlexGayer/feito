@@ -39,15 +39,15 @@ class _PasswordWidgetState
               children: [
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.3,
-                  child: Image.asset("images/todo.png"),
+                  child: Image.asset("assets/images/todo.png"),
                 ),
                 Text(
-                  "Faça login em sua conta",
+                  "Cadastre uma nova senha !",
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  "Por favor, preencha suas informações abaixo para acessar uma conta na Feito ",
+                  "Por favor, preencha suas informações abaixo para registrar uma nova senha ",
                   style: Theme.of(context).textTheme.titleMedium,
                   textAlign: TextAlign.center,
                 ),
@@ -68,17 +68,12 @@ class _PasswordWidgetState
                         const SizedBox(height: 10),
                         TextFieldContainer(
                           pwd: true,
-                          focus: controller.focusPwd,
-                          controller: controller.pwdCtrl,
-                          hintText: "Senha",
-                          validatorText: "Informe sua senha !",
+                          focus: controller.focusNewPwd,
+                          controller: controller.newPwdCtrl,
+                          hintText: "Nova Senha",
+                          validatorText: "Informe sua nova senha !",
                           icon: MdiIcons.lock,
                         ),
-                        TextButton(
-                            onPressed: () => Navigator.of(context)
-                                .pushReplacementNamed("/cadastro"),
-                            child: Text("Esqueceu sua senha ?",
-                                style: Theme.of(context).textTheme.bodySmall)),
                         const SizedBox(height: 20),
                         Observer(
                           builder: (_) => SizedBox(
@@ -90,7 +85,7 @@ class _PasswordWidgetState
                                   )
                                 : ElevatedButtonWidget(
                                     onPressed: () async {
-                                      controller.login(context);
+                                      controller.changePassword(context);
                                     },
                                     label: "Alterar Senha",
                                   ),

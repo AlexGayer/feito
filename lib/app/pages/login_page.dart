@@ -38,7 +38,7 @@ class _LoginPageState extends WidgetStateful<LoginPage, LoginController> {
               children: [
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.3,
-                  child: Image.asset("images/todo.png"),
+                  child: Image.asset("assets/images/todo.png"),
                 ),
                 Text(
                   "Faça login em sua conta",
@@ -89,8 +89,8 @@ class _LoginPageState extends WidgetStateful<LoginPage, LoginController> {
                                   )
                                 : ElevatedButtonWidget(
                                     onPressed: () async {
-                                      controller.login(context);
                                       controller.setFirstLogin(false);
+                                      controller.login(context);
                                     },
                                     label: "Acessar",
                                   ),

@@ -3,12 +3,12 @@
 import 'dart:math';
 import 'package:feito/app/data/respository/firestore_repository.dart';
 import 'package:feito/app/domain/model/task.dart';
+import 'package:feito/app/global/app_funcoes.dart';
 import 'package:feito/app/global/shared_preferences_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
-
 part 'schedule_controller.g.dart';
 
 @injectable
@@ -16,6 +16,7 @@ class ScheduleController = _ScheduleControllerBase with _$ScheduleController;
 
 abstract class _ScheduleControllerBase with Store {
   final FirestoreRepository _firestoreRepository;
+  final AppFuncoes _appFuncoes = AppFuncoes();
 
   final tarefaCtrl = TextEditingController();
   final descrCtrl = TextEditingController();
@@ -102,7 +103,8 @@ abstract class _ScheduleControllerBase with Store {
           await _firestoreRepository.addTask(task);
           selectedDate = DateFormat("dd/MM/yyyy").parse(dateCtrl.text);
 
-          // Atualizar a lista de tarefas localmente
+          await _appFuncoes.scheduleNotification(task);
+
           await fetchTasks();
 
           clearTextController();
@@ -159,6 +161,20 @@ abstract class _ScheduleControllerBase with Store {
           };
 
           await _firestoreRepository.updateTask(taskId, data);
+
+          // Convert the data to a Task object
+          final task = Task(
+            id: taskId,
+            name: tarefaCtrl.text,
+            description: descrCtrl.text,
+            date: selectedDate,
+            time: toBRDHr(timeOfDay),
+            priority: _selectedPriority,
+            isCompleted: false,
+          );
+
+          // Schedule the notification for the updated task
+          await _appFuncoes.scheduleNotification(task);
 
           await fetchTasks();
 

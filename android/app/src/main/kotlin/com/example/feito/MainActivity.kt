@@ -1,4 +1,4 @@
-package com.example.feito
+package com.alexgayer
 
 import io.flutter.embedding.android.FlutterActivity
 
