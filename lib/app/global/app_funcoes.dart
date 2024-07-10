@@ -1,4 +1,7 @@
+// ignore_for_file: depend_on_referenced_packages, avoid_print
+
 import 'dart:io';
+
 import 'package:feito/app/domain/model/task.dart';
 import 'package:feito/app/global/shared_preferences_handler.dart';
 import 'package:flutter/material.dart';
@@ -87,17 +90,31 @@ class AppFuncoes {
   }
 
   Future<void> requestExactAlarmPermission() async {
-    if (Platform.isAndroid &&
-        (await Permission.scheduleExactAlarm.status.isDenied)) {
-      final status = await Permission.scheduleExactAlarm.request();
+    if (Platform.isAndroid) {
+      final status = await Permission.scheduleExactAlarm.status;
+      print('Status da permissão de alarme exato: $status');
+
       if (status.isDenied) {
-        print('Permissão para alarmes exatos negada.');
-      } else if (status.isPermanentlyDenied) {
-        print('Permissão para alarmes exatos permanentemente negada.');
+        print('Permissão de alarme exato foi negada, solicitando permissão...');
+        final newStatus = await Permission.scheduleExactAlarm.request();
+        if (newStatus.isDenied) {
+          print('Permissão para alarmes exatos negada.');
+        } else if (newStatus.isPermanentlyDenied) {
+          print('Permissão para alarmes exatos permanentemente negada.');
+        } else if (newStatus.isGranted) {
+          print('Permissão para alarmes exatos concedida.');
+        }
       } else if (status.isGranted) {
-        print('Permissão para alarmes exatos concedida.');
+        print('Permissão de alarme exato já concedida.');
+      } else if (status.isPermanentlyDenied) {
+        print('Permissão de alarme exato está permanentemente negada.');
       }
     }
+  }
+
+  Future<void> cancelTaskNotifications(String taskId) async {
+    await flutterLocalNotificationsPlugin.cancel(taskId.hashCode);
+    await flutterLocalNotificationsPlugin.cancel(taskId.hashCode + 1);
   }
 
   Future<bool> scheduleNotification(Task task) async {

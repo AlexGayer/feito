@@ -144,6 +144,7 @@ abstract class _ScheduleControllerBase with Store {
   }
 
   @action
+  @action
   Future<void> updateTask(BuildContext context, String taskId) async {
     _loading = true;
     try {
@@ -172,6 +173,9 @@ abstract class _ScheduleControllerBase with Store {
             priority: _selectedPriority,
             isCompleted: false,
           );
+
+          // Cancel the existing notifications for the task
+          await _appFuncoes.cancelTaskNotifications(taskId);
 
           // Schedule the notification for the updated task
           await _appFuncoes.scheduleNotification(task);
