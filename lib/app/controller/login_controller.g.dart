@@ -23,6 +23,22 @@ mixin _$LoginController on _LoginControllerBase, Store {
               name: '_LoginControllerBase.firstLogin'))
           .value;
 
+  late final _$userPhotoURLAtom =
+      Atom(name: '_LoginControllerBase.userPhotoURL', context: context);
+
+  @override
+  String? get userPhotoURL {
+    _$userPhotoURLAtom.reportRead();
+    return super.userPhotoURL;
+  }
+
+  @override
+  set userPhotoURL(String? value) {
+    _$userPhotoURLAtom.reportWrite(value, super.userPhotoURL, () {
+      super.userPhotoURL = value;
+    });
+  }
+
   late final _$_firstLoginAtom =
       Atom(name: '_LoginControllerBase._firstLogin', context: context);
 
@@ -103,6 +119,22 @@ mixin _$LoginController on _LoginControllerBase, Store {
     });
   }
 
+  late final _$initStateAsyncAction =
+      AsyncAction('_LoginControllerBase.initState', context: context);
+
+  @override
+  Future initState() {
+    return _$initStateAsyncAction.run(() => super.initState());
+  }
+
+  late final _$fetchUserPhotoURLAsyncAction =
+      AsyncAction('_LoginControllerBase.fetchUserPhotoURL', context: context);
+
+  @override
+  Future<void> fetchUserPhotoURL() {
+    return _$fetchUserPhotoURLAsyncAction.run(() => super.fetchUserPhotoURL());
+  }
+
   late final _$loginAsyncAction =
       AsyncAction('_LoginControllerBase.login', context: context);
 
@@ -148,7 +180,7 @@ mixin _$LoginController on _LoginControllerBase, Store {
       AsyncAction('_LoginControllerBase.getImageGallery', context: context);
 
   @override
-  Future<dynamic> getImageGallery() {
+  Future<void> getImageGallery() {
     return _$getImageGalleryAsyncAction.run(() => super.getImageGallery());
   }
 
@@ -156,7 +188,7 @@ mixin _$LoginController on _LoginControllerBase, Store {
       AsyncAction('_LoginControllerBase.getImageCamera', context: context);
 
   @override
-  Future<dynamic> getImageCamera() {
+  Future<void> getImageCamera() {
     return _$getImageCameraAsyncAction.run(() => super.getImageCamera());
   }
 
@@ -211,6 +243,7 @@ mixin _$LoginController on _LoginControllerBase, Store {
   @override
   String toString() {
     return '''
+userPhotoURL: ${userPhotoURL},
 name: ${name},
 mail: ${mail},
 pickedImage: ${pickedImage},

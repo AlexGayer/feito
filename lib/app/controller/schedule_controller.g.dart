@@ -158,12 +158,37 @@ mixin _$ScheduleController on _ScheduleControllerBase, Store {
     });
   }
 
+  late final _$userPhotoURLAtom =
+      Atom(name: '_ScheduleControllerBase.userPhotoURL', context: context);
+
+  @override
+  String? get userPhotoURL {
+    _$userPhotoURLAtom.reportRead();
+    return super.userPhotoURL;
+  }
+
+  @override
+  set userPhotoURL(String? value) {
+    _$userPhotoURLAtom.reportWrite(value, super.userPhotoURL, () {
+      super.userPhotoURL = value;
+    });
+  }
+
   late final _$initStateAsyncAction =
       AsyncAction('_ScheduleControllerBase.initState', context: context);
 
   @override
   Future initState() {
     return _$initStateAsyncAction.run(() => super.initState());
+  }
+
+  late final _$fetchUserPhotoURLAsyncAction = AsyncAction(
+      '_ScheduleControllerBase.fetchUserPhotoURL',
+      context: context);
+
+  @override
+  Future<void> fetchUserPhotoURL() {
+    return _$fetchUserPhotoURLAsyncAction.run(() => super.fetchUserPhotoURL());
   }
 
   late final _$addTaskAsyncAction =
@@ -303,6 +328,7 @@ index: ${index},
 priorityColor: ${priorityColor},
 taskList: ${taskList},
 colors: ${colors},
+userPhotoURL: ${userPhotoURL},
 isOpened: ${isOpened},
 loading: ${loading},
 selectedPriority: ${selectedPriority}
