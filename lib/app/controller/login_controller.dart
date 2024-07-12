@@ -33,6 +33,9 @@ abstract class _LoginControllerBase with Store {
   _LoginControllerBase(this._firestoreRepository);
 
   @observable
+  String? userPhotoURL;
+
+  @observable
   bool _firstLogin = false;
 
   @observable
@@ -52,6 +55,28 @@ abstract class _LoginControllerBase with Store {
 
   @computed
   bool get firstLogin => _firstLogin;
+
+  @action
+  initState() async {
+    try {
+      _loading = true;
+
+      await fetchUserPhotoURL();
+    } finally {
+      _loading = false;
+    }
+  }
+
+  @action
+  Future<void> fetchUserPhotoURL() async {
+    try {
+      String? photoURL =
+          await _firestoreRepository.getUserPhotoURL(_auth.currentUser!.uid);
+      userPhotoURL = photoURL;
+    } catch (e) {
+      print('Erro ao buscar a URL da foto do usuário: $e');
+    }
+  }
 
   @action
   Future login(BuildContext context) async {
@@ -117,17 +142,22 @@ abstract class _LoginControllerBase with Store {
 
       // Upload da imagem para o Firebase Storage
       if (pickedImage != null) {
+        print('Imagem selecionada: ${pickedImage!.path}');
         await _firestoreRepository.uploadUserImage(
           _auth.currentUser!.uid,
           File(pickedImage!.path),
         );
+      } else {
+        print('Nenhuma imagem selecionada');
       }
 
-      // Salvar URL da imagem, se disponível
+      // Obtenha a URL da imagem do Firestore
       String? photoURL =
           await _firestoreRepository.getUserPhotoURL(_auth.currentUser!.uid);
-      if (photoURL!.isNotEmpty) {
-        await saveCampos(photoURL);
+
+      // Atualize o perfil do usuário com a URL da foto
+      if (photoURL != null && photoURL.isNotEmpty) {
+        await userCredential.user!.updateProfile(photoURL: photoURL);
       }
 
       // Sucesso no registro
@@ -138,11 +168,17 @@ abstract class _LoginControllerBase with Store {
       DialogHelper.showConfirmationDialog(
         context,
         "Sucesso",
-        "Cadastro realizado com sucesso !",
+        "Cadastro realizado com sucesso!",
         () => Navigator.of(context).pushNamed("/home"),
       );
     } on FirebaseAuthException catch (e) {
       print(e);
+      DialogHelper.showConfirmationDialog(
+        context,
+        "Atenção",
+        "O endereço de e-mail já está sendo usado por outra conta !",
+        () => Navigator.of(context).pushNamed("/home"),
+      );
       _loading = false;
       rethrow;
     }
@@ -223,20 +259,22 @@ abstract class _LoginControllerBase with Store {
   }
 
   @action
-  Future getImageGallery() async {
+  Future<void> getImageGallery() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       pickedImage = XFile(pickedFile.path);
+      print('Imagem da galeria selecionada: ${pickedImage!.path}');
     } else {
       print('Nenhuma imagem selecionada.');
     }
   }
 
   @action
-  Future getImageCamera() async {
+  Future<void> getImageCamera() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.camera);
     if (pickedFile != null) {
       pickedImage = XFile(pickedFile.path);
+      print('Imagem da câmera selecionada: ${pickedImage!.path}');
     } else {
       print('Nenhuma imagem selecionada.');
     }

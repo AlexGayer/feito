@@ -32,30 +32,30 @@ dependencies:
     sdk: flutter
   flutter_localizations: 
     sdk: flutter
-  material_design_icons_flutter: ^7.0.7296
-  intl: ^0.19.0
-  mobx: ^2.3.3+2
-  flutter_mobx: ^2.2.1+1
-  mobx_codegen: ^2.6.1
-  json_annotation: ^4.9.0
-  get_it: ^7.2.0
-  injectable_generator: ^1.5.3
-  injectable: ^1.5.3
-  firebase_core: ^3.2.0
-  firebase_auth: ^5.1.1
-  firebase_storage: ^12.1.0
-  cloud_firestore: ^5.0.2
-  shared_preferences: ^2.2.3
-  image_picker: ^1.1.2
-  path: ^1.9.0
-  flutter_local_notifications: ^17.2.1+1
-  permission_handler: ^10.2.0
+  material_design_icons_flutter: 
+  intl: 
+  mobx: 
+  flutter_mobx: 
+  mobx_codegen: 
+  json_annotation: 
+  get_it: 
+  injectable_generator:
+  injectable: 
+  firebase_core: 
+  firebase_auth: 
+  firebase_storage: 
+  cloud_firestore: 
+  shared_preferences: 
+  image_picker: 
+  path: 
+  flutter_local_notifications: 
+  permission_handler: 
   
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.6
-  flutter_launcher_icons: ^0.13.1
+  cupertino_icons: 
+  flutter_launcher_icons: 
 
 
  
@@ -68,9 +68,9 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^3.0.0
-  build_runner: ^2.4.11
-  json_serializable: ^6.8.0
+  flutter_lints: 
+  build_runner: 
+  json_serializable: 
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

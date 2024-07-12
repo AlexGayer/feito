@@ -18,6 +18,7 @@ class _NavigationDrawerWidgetState
     extends WidgetStateful<NavigationDrawerWidget, LoginController> {
   @override
   void initState() {
+    controller.initState();
     controller.getInfoUser();
     super.initState();
   }
@@ -42,11 +43,27 @@ class _NavigationDrawerWidgetState
                 top: MediaQuery.of(context).padding.top, bottom: 20),
             child: Column(
               children: [
-                const CircleAvatar(
-                  radius: 50,
-                  backgroundImage: AssetImage("/assets/images/foto.png"),
-                ),
                 const SizedBox(height: 12),
+                Observer(
+                  builder: (_) {
+                    if (controller.userPhotoURL != null) {
+                      return CircleAvatar(
+                        radius: 40,
+                        backgroundImage: NetworkImage(controller.userPhotoURL!),
+                        backgroundColor: Colors.transparent,
+                      );
+                    } else if (controller.loading) {
+                      return const CircularProgressIndicator();
+                    } else {
+                      return const CircleAvatar(
+                        radius: 40,
+                        backgroundColor: Colors.grey,
+                        child:
+                            Icon(Icons.person, color: Colors.white, size: 40),
+                      );
+                    }
+                  },
+                ),
                 Text(
                   controller.name,
                   style: Theme.of(context).textTheme.titleMedium,

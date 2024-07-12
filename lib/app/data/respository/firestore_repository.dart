@@ -140,15 +140,25 @@ class FirestoreRepositoryImpl implements FirestoreRepository {
           .child('user_images/$userId.jpg');
 
       // Upload da imagem para o Firebase Storage
-      await storageRef.putFile(imageFile);
+      final uploadTask = await storageRef.putFile(imageFile);
+      final snapshot = await uploadTask;
 
-      // Obtenha a URL de download da imagem
-      final imageUrl = await storageRef.getDownloadURL();
+      // Verifique se o upload foi bem-sucedido
+      if (snapshot.state == firebase_storage.TaskState.success) {
+        print('Upload bem-sucedido');
 
-      // Atualize a URL da foto no Firestore
-      await firestore.collection('users').doc(userId).update({
-        'photoURL': imageUrl,
-      });
+        // Obtenha a URL de download da imagem
+        final imageUrl = await storageRef.getDownloadURL();
+        print('URL da imagem: $imageUrl');
+
+        // Atualize a URL da foto no Firestore
+        await firestore.collection('users').doc(userId).update({
+          'photoURL': imageUrl,
+        });
+        print('URL da imagem atualizada no Firestore');
+      } else {
+        print('Erro durante o upload: ${snapshot.state}');
+      }
     } catch (e) {
       print('Erro ao fazer upload da imagem para o Firebase Storage: $e');
       rethrow;

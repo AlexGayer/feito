@@ -5,6 +5,7 @@ import 'package:feito/app/data/respository/firestore_repository.dart';
 import 'package:feito/app/domain/model/task.dart';
 import 'package:feito/app/global/app_funcoes.dart';
 import 'package:feito/app/global/shared_preferences_handler.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
@@ -17,6 +18,7 @@ class ScheduleController = _ScheduleControllerBase with _$ScheduleController;
 abstract class _ScheduleControllerBase with Store {
   final FirestoreRepository _firestoreRepository;
   final AppFuncoes _appFuncoes = AppFuncoes();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   final tarefaCtrl = TextEditingController();
   final descrCtrl = TextEditingController();
@@ -32,7 +34,9 @@ abstract class _ScheduleControllerBase with Store {
 
   Random random = Random();
 
-  _ScheduleControllerBase(this._firestoreRepository);
+  _ScheduleControllerBase(this._firestoreRepository) {
+    initState();
+  }
 
   @observable
   bool _isOpened = false;
@@ -52,15 +56,6 @@ abstract class _ScheduleControllerBase with Store {
   @observable
   Color priorityColor = Colors.grey;
 
-  @computed
-  bool get isOpened => _isOpened;
-
-  @computed
-  bool get loading => _loading;
-
-  @computed
-  String get selectedPriority => _selectedPriority;
-
   @observable
   List<Task> taskList = [];
 
@@ -73,13 +68,37 @@ abstract class _ScheduleControllerBase with Store {
     Colors.cyan[400],
   ];
 
+  @observable
+  String? userPhotoURL;
+
+  @computed
+  bool get isOpened => _isOpened;
+
+  @computed
+  bool get loading => _loading;
+
+  @computed
+  String get selectedPriority => _selectedPriority;
+
   @action
   initState() async {
     try {
       _loading = true;
       await fetchTasks();
+      await fetchUserPhotoURL();
     } finally {
       _loading = false;
+    }
+  }
+
+  @action
+  Future<void> fetchUserPhotoURL() async {
+    try {
+      String? photoURL =
+          await _firestoreRepository.getUserPhotoURL(_auth.currentUser!.uid);
+      userPhotoURL = photoURL;
+    } catch (e) {
+      print('Erro ao buscar a URL da foto do usuário: $e');
     }
   }
 
@@ -143,7 +162,6 @@ abstract class _ScheduleControllerBase with Store {
     }
   }
 
-  @action
   @action
   Future<void> updateTask(BuildContext context, String taskId) async {
     _loading = true;

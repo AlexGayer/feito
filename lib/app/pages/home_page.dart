@@ -42,17 +42,30 @@ class _HomePageState extends WidgetStateful<HomePage, ScheduleController> {
             ),
             backgroundColor: Colors.transparent,
             actions: [
+              Observer(
+                builder: (_) {
+                  if (controller.userPhotoURL != null) {
+                    return CircleAvatar(
+                      radius: 40,
+                      backgroundImage: NetworkImage(controller.userPhotoURL!),
+                      backgroundColor: Colors.transparent,
+                    );
+                  } else if (controller.loading) {
+                    return const CircularProgressIndicator();
+                  } else {
+                    return const CircleAvatar(
+                      radius: 40,
+                      backgroundColor: Colors.grey,
+                      child: Icon(Icons.person, color: Colors.white, size: 40),
+                    );
+                  }
+                },
+              ),
               IconButton(
                 onPressed: () {},
                 icon: Icon(
                   MdiIcons.bell,
                   color: Colors.white,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: ClipOval(
-                  child: Image.asset("assets/images/todo.png"),
                 ),
               ),
             ],

@@ -35,10 +35,6 @@ class _CadastroPageState extends WidgetStateful<CadastroPage, LoginController> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.25,
-                  child: Image.asset("/assets/images/todo.png"),
-                ),
                 Text(
                   "Faça o cadastro de sua conta",
                   style: Theme.of(context).textTheme.titleLarge,
@@ -60,7 +56,7 @@ class _CadastroPageState extends WidgetStateful<CadastroPage, LoginController> {
                                   : ClipRRect(
                                       borderRadius: BorderRadius.circular(50),
                                       child:
-                                          Image.asset("assets/images/todo.png"),
+                                          Image.asset("assets/images/user.png"),
                                     )),
                           Positioned(
                             left: 120,
